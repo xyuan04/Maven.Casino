@@ -5,13 +5,13 @@ import java.util.List;
 
 public class BlackJack extends CardGame {
     Player currentPlayer;
+    public List<Card> playerHand = new ArrayList<>();
+    public List<Card> dealerHand = new ArrayList<>();
     public List<Card> playerSplitHand = new ArrayList<>();
-    public List<Card> dealerSplitHand = new ArrayList<>();
-    public int currentTurn = 1;
+    public List currentHand = playerHand;
     public int playerTotal;
     public int playerSplitTotal;
     public int dealerTotal;
-    public int dealerSplitTotal;
     public int sizeOfPot;
 
     public BlackJack(Player currentPlayer) {
@@ -34,12 +34,22 @@ public class BlackJack extends CardGame {
     }
 
     public void hitMe() {
-        dealCards(currentTurn);
-        playerTotal += playerHand.get(playerHand.size()-1).getValue();
+        dealCards(currentHand);
+        if(currentHand == playerHand) {
+            playerTotal += playerHand.get(playerHand.size() - 1).getValue();
+        } else if(currentHand == playerSplitHand) {
+            playerSplitTotal += playerSplitHand.get(playerSplitHand.size() - 1).getValue();
+        } else if(currentHand == dealerHand) {
+            dealerTotal += dealerHand.get(dealerHand.size() - 1).getValue();
+        }
     }
 
     public void hold() {
-        currentTurn = 2;
+        currentHand = dealerHand;
+    }
+
+    public void splitHold() {
+        currentHand = playerSplitHand;
     }
 
     @Override
@@ -47,9 +57,9 @@ public class BlackJack extends CardGame {
         makeDeck();
         shuffleDeck();
         for(int i = 0; i < 2; i++) {
-            dealCards(1);
+            dealCards(playerHand);
             playerTotal += playerHand.get(i).getValue();
-            dealCards(2);
+            dealCards(dealerHand);
             dealerTotal += dealerHand.get(i).getValue();
         }
     }
@@ -65,16 +75,26 @@ public class BlackJack extends CardGame {
         else return null;
     }
 
+    public Boolean checkSplitWinner() {
+        if(playerSplitTotal == 21 && dealerTotal != 21) return true;
+        else if(playerSplitTotal > dealerTotal && playerSplitTotal <= 21) return true;
+        else if(dealerTotal > 21) return true;
+        else if(playerSplitTotal > 21) return false;
+        else if(dealerTotal == 21 && playerSplitTotal != 21) return false;
+        else if (dealerTotal > playerSplitTotal) return false;
+        else return null;
+    }
+
     public void playerHandSplit() {
+        addToPot(sizeOfPot);
+
         playerTotal -= playerHand.get(0).getValue();
         playerSplitHand.add(playerHand.remove(0));
         playerSplitTotal += playerSplitHand.get(0).getValue();
-    }
-    
-    public void dealerHandSplit() {
-        dealerTotal -= dealerHand.get(0).getValue();
-        dealerSplitHand.add(dealerHand.remove(0));
-        dealerSplitTotal += dealerSplitHand.get(0).getValue();
-    }
 
+        dealCards(playerHand);
+        playerTotal += playerHand.get(1).getValue();
+        dealCards(playerSplitHand);
+        playerSplitTotal += playerSplitHand.get(1).getValue();
+    }
 }
