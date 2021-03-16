@@ -109,7 +109,128 @@ public class BlackJackTest {
     }
 
     @Test
-    public void checkWinner() {
+    public void playGamePlayerHandValueTest() {
+        //Given:
+        bj.playGame();
+
+        //When:
+        int actual = bj.playerTotal;
+
+        //Then:
+        assertTrue(actual > 0);
+    }
+
+    @Test
+    public void playGameDealerHandValueTest() {
+        //Given:
+        bj.playGame();
+
+        //When:
+        int actual = bj.dealerTotal;
+
+        //Then:
+        assertTrue(actual > 0);
+    }
+
+    @Test
+    public void checkWinnerPlayerWinTest() {
+        //Given:
+        bj.playerTotal = 18;
+        bj.dealerTotal = 17;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkWinnerPlayerBustTest() {
+        //Given:
+        bj.playerTotal = 25;
+        bj.dealerTotal = 17;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkWinnerDealerWinsTest() {
+        //Given:
+        bj.playerTotal = 19;
+        bj.dealerTotal = 20;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkWinnerDealerBustTest() {
+        //Given:
+        bj.playerTotal = 16;
+        bj.dealerTotal = 23;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkWinnerPlayerBlackJackTest() {
+        //Given:
+        bj.playerTotal = 21;
+        bj.dealerTotal = 21;
+
+        //When:
+        Boolean expected = null;
+        Boolean actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void hitMePlayerTest() {
+        //Given:
+        bj.playGame();
+
+        //When:
+        bj.hitMe();
+        bj.hitMe();
+        int expected = 4;
+        int actual = bj.playerHand.size();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void hitMeDealerTest() {
+        //Given:
+        bj.playGame();
+
+        //When:
+        bj.hitMe();
+        bj.hold();
+        bj.hitMe();
+        int expected = 3;
+        int actual = bj.dealerHand.size();
+
+        //Then:
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -120,11 +241,4 @@ public class BlackJackTest {
     public void dealerHandSplit() {
     }
 
-    @Test
-    public void playerBust() {
-    }
-
-    @Test
-    public void dealerBust() {
-    }
 }
