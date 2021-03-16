@@ -38,7 +38,6 @@ public class PlayerWarehouseTest {
         //When:
         PlayerWarehouse.removePlayer(gergPlayerID);
 
-
         //Then:
         Assert.assertEquals(2, (int) PlayerWarehouse.getNumberOfCurrentPlayers());
     }
@@ -60,12 +59,27 @@ public class PlayerWarehouseTest {
         //When:
         PlayerWarehouse.removePlayer(gergPlayerID);
 
-
         //Then:
         Assert.assertEquals(2, (int) PlayerWarehouse.getNumberOfCurrentPlayers());
     }
 
     @Test
     public void removeAllPlayers() {
+        //Given:
+        Player gerg = PlayerFactory.createPlayer("gerg", 500);
+        Player eab = PlayerFactory.createPlayer("eab", 500);
+        Player nixog = PlayerFactory.createPlayer("nixog", 500);
+        int gergPlayerID = gerg.getPlayerID();
+        int eabPlayerID = eab.getPlayerID();
+        int nixogPlayerID = nixog.getPlayerID();
+        PlayerWarehouse.addPlayer(gergPlayerID, gerg);
+        PlayerWarehouse.addPlayer(eabPlayerID, eab);
+        PlayerWarehouse.addPlayer(nixogPlayerID, nixog);
+
+        //When:
+        PlayerWarehouse.removeAllPlayers();
+
+        //Then:
+        Assert.assertEquals(0, (int) PlayerWarehouse.getNumberOfCurrentPlayers());
     }
 }

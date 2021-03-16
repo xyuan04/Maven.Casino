@@ -193,4 +193,36 @@ public class PlayerTest {
         //Then:
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void winChipsTest() {
+        //Given:
+        Player gamblingAddict = new Player(name, stash);
+        gamblingAddict.setChipBalance(5000);
+        int chipsWon = 167;
+
+        //When:
+        int expected = 5167;
+        gamblingAddict.winChips(chipsWon);
+        int actual = gamblingAddict.getChipBalance();
+
+        //Then:
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void betTest() {
+        //Given:
+        Player gamblingAddict = new Player(name, stash);
+        gamblingAddict.setChipBalance(5000);
+        int betAmount = 250;
+
+        //When:
+        int expected = 4750;
+        gamblingAddict.bet(betAmount);
+        int actual = gamblingAddict.getChipBalance();
+
+        //Then:
+        Assert.assertEquals(expected, actual);
+    }
 }
