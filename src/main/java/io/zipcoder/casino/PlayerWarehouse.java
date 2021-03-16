@@ -4,7 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerWarehouse {
-    private static Map<Integer, Player> currentPlayers = new HashMap<>();
+    public static Map<Integer, Player> currentPlayers = new HashMap<>();
+
+    public static void initializePlayers() {
+        Player gerg = PlayerFactory.createPlayer("Greg", 5000);
+        Player nixog = PlayerFactory.createPlayer("Xiong", 5000);
+        Player eab = PlayerFactory.createPlayer("Abe", 5000);
+
+        currentPlayers.put(100, nixog);
+        currentPlayers.put(200, gerg);
+        currentPlayers.put(300, eab);
+    }
 
     public static void addPlayer(int playerID, Player player) {
         currentPlayers.put(playerID, player);
