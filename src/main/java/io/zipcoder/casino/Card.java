@@ -25,4 +25,9 @@ public class Card {
     public String getCardSuit(){
         return cardSuit;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s of %s", cardName, cardSuit);
+    }
 }
