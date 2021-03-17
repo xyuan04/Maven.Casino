@@ -109,7 +109,7 @@ public class BlackJackEngine {
                     }
                     if(blackJack.dealerBust()) {
                         currentHands(blackJack);
-                        System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", blackJack.sizeOfPot));
+                        System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", (blackJack.sizeOfPot*2)));
                         blackJack.playerWinPot();
                         resetHandAndValues(blackJack);
                         blackJack.clearDiscardAndDeck();
@@ -119,19 +119,19 @@ public class BlackJackEngine {
                 case 2:
                     blackJack.hold();
                     if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
-                        if(blackJack.checkWinner() == true) {
-                            System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot*2));
+                        if(blackJack.checkWinner().equals("Player")) {
+                            System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
                             blackJack.playerWinPot();
                             resetHandAndValues(blackJack);
                             blackJack.clearDiscardAndDeck();
                             round = false;
-                        } else if (blackJack.checkWinner() == false) {
+                        } else if (blackJack.checkWinner().equals("Dealer")) {
                             System.out.println("Sorry, better luck next time!");
                             blackJack.playerLosePot();
                             resetHandAndValues(blackJack);
                             blackJack.clearDiscardAndDeck();
                             round = false;
-                        } else if (blackJack.checkWinner() == null) {
+                        } else if (blackJack.checkWinner().equals("Tie")) {
                             System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
                             blackJack.tiedPot();
                             resetHandAndValues(blackJack);

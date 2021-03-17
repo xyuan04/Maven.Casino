@@ -78,24 +78,24 @@ public class BlackJack extends CardGame {
     }
 
     @Override
-    public Boolean checkWinner() {
-        if(playerTotal == 21 && dealerTotal != 21) return true;
-        else if(playerTotal > dealerTotal && playerTotal <= 21) return true;
-        else if(dealerTotal > 21) return true;
-        else if(playerTotal > 21) return false;
-        else if(dealerTotal == 21 && playerTotal != 21) return false;
-        else if (dealerTotal > playerTotal) return false;
-        else return null;
+    public String checkWinner() {
+        if(playerTotal == 21 && dealerTotal != 21) return "Player";
+        else if(playerTotal > dealerTotal && playerTotal <= 21) return "Player";
+        else if(dealerTotal > 21) return "Player";
+        else if(playerTotal > 21) return "Dealer";
+        else if(dealerTotal == 21 && playerTotal != 21) return "Dealer";
+        else if (dealerTotal > playerTotal) return "Dealer";
+        else return "Tie";
     }
 
-    public Boolean checkSplitWinner() {
-        if(playerSplitTotal == 21 && dealerTotal != 21) return true;
-        else if(playerSplitTotal > dealerTotal && playerSplitTotal <= 21) return true;
-        else if(dealerTotal > 21) return true;
-        else if(playerSplitTotal > 21) return false;
-        else if(dealerTotal == 21 && playerSplitTotal != 21) return false;
-        else if (dealerTotal > playerSplitTotal) return false;
-        else return null;
+    public String checkSplitWinner() {
+        if(playerSplitTotal == 21 && dealerTotal != 21) return "Player";
+        else if(playerSplitTotal > dealerTotal && playerSplitTotal <= 21) return "Player";
+        else if(dealerTotal > 21) return "Player";
+        else if(playerSplitTotal > 21) return "Dealer";
+        else if(dealerTotal == 21 && playerSplitTotal != 21) return "Dealer";
+        else if (dealerTotal > playerSplitTotal) return "Dealer";
+        else return "Tie";
     }
 
     public void playerHandSplit() {
