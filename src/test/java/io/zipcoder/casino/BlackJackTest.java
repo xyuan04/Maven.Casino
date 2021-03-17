@@ -74,7 +74,7 @@ public class BlackJackTest {
 
         //When:
         bj.addToPot(500);
-        bj.playerBlackJack();
+        bj.playerWinByBlackJack();
         int expected = 4000;
         int actual = gerg.getChipBalance();
 
@@ -399,5 +399,215 @@ public class BlackJackTest {
 
         //Then:
         assertTrue(actual == 4950);
+    }
+
+    @Test
+    public void checkSplitWinnerTrueTest() {
+        //Given:
+        bj.playerSplitTotal = 21;
+        bj.dealerTotal = 20;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.checkSplitWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkSplitWinnerFalseTest() {
+        //Given:
+        bj.playerSplitTotal = 18;
+        bj.dealerTotal = 19;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.checkSplitWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkSplitWinnerTieTest() {
+        //Given:
+        bj.playerSplitTotal = 17;
+        bj.dealerTotal = 17;
+
+        //When:
+        Boolean expected = null;
+        Boolean actual = bj.checkSplitWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerHaveBlackJackTrueTest() {
+        //Given:
+        bj.playerTotal = 21;
+        bj.dealerTotal = 20;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.playerHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerHaveBlackJackFalseTest() {
+        //Given:
+        bj.playerTotal = 18;
+        bj.dealerTotal = 20;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.playerHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerSplitHandHaveBlackJackTrueTest() {
+        //Given:
+        bj.playerSplitTotal = 21;
+        bj.dealerTotal = 18;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.playerSplitHandHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerSplitHandHaveBlackJackFalseTest() {
+        //Given:
+        bj.playerSplitTotal = 16;
+        bj.dealerTotal = 18;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.playerSplitHandHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dealerHaveBlackJackTrueTest() {
+        //Given:
+        bj.playerTotal = 20;
+        bj.dealerTotal = 21;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.dealerHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dealerHaveBlackJackFalseTest() {
+        //Given:
+        bj.playerTotal = 20;
+        bj.dealerTotal = 18;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.dealerHaveBlackJack();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerBustTrueTest() {
+        //Given:
+        bj.playerTotal = 23;
+        bj.dealerTotal = 18;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.playerBust();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerBustFalseTest() {
+        //Given:
+        bj.playerTotal = 20;
+        bj.dealerTotal = 19;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.playerBust();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerSplitHandBustTrueTest() {
+        //Given:
+        bj.playerSplitTotal = 24;
+        bj.dealerTotal = 19;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.playerSplitHandBust();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void playerSplitHandBustFalseTest() {
+        //Given:
+        bj.playerSplitTotal = 15;
+        bj.dealerTotal = 19;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.playerSplitHandBust();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dealerBustTrueTest() {
+        //Given:
+        bj.playerSplitTotal = 20;
+        bj.dealerTotal = 26;
+
+        //When:
+        boolean expected = true;
+        boolean actual = bj.dealerBust();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void dealerBustFalseTest() {
+        //Given:
+        bj.playerSplitTotal = 20;
+        bj.dealerTotal = 13;
+
+        //When:
+        boolean expected = false;
+        boolean actual = bj.dealerBust();
+
+        //Then:
+        assertEquals(expected, actual);
     }
 }

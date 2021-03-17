@@ -2,8 +2,6 @@ package io.zipcoder.casino;
 
 import io.zipcoder.casino.utilities.Console;
 
-import java.util.Locale;
-
 public class BlackJackEngine {
 
     public static void main(String[] args) {
@@ -20,30 +18,33 @@ public class BlackJackEngine {
         BlackJack bj = new BlackJack(player);
         player.setChipBalance(5000);
 
+        System.out.println(String.format("Hello %s", player.getPlayerName()));
+        System.out.println("Welcome To BlackJack!");
+
         while (gameOn) {
             mainBlackJackMenu(bj, player, console);
-            String choice = console.getStringInput("Would you like to play again? Yes/No");
-            while(true) {
-                if(choice.equalsIgnoreCase("yes")) {
-                    continue;
-                } else if (choice.equalsIgnoreCase("no")) {
-                    System.out.println("Good bye!");
-                    gameOn = false;
-                } else choice = console.getStringInput("Please choose yes or no");
-                break;
-            }
+//            String choice = console.getStringInput("Would you like to play again? Yes/No");
+//            while(true) {
+//                if(choice.equalsIgnoreCase("yes")) {
+//                    continue;
+//                } else if (choice.equalsIgnoreCase("no")) {
+//                    System.out.println("Good bye!");
+//                    gameOn = false;
+//                } else choice = console.getStringInput("Please choose yes or no");
+//                break;
+//            }
 
         }
     }
 
     public void mainBlackJackMenu(BlackJack bj, Player player, Console console) {
-        System.out.println("Welcome To BlackJack!");
 
         boolean validInput = true;
         while(validInput) {
-            Integer input = console.getIntegerInput("Up for a game? 1 - Yes or 2 - No");
+            Integer input = console.getIntegerInput("Play? 1 - Yes or 2 - No");
             switch (input) {
                 case 1:
+                    currentChipCount(player);
                     Integer bet = console.getIntegerInput("What is your bet?");
                     boolean invalidBet = bet > player.getChipBalance();
                     if(invalidBet) {
@@ -74,13 +75,13 @@ public class BlackJackEngine {
 
     public void currentHands(BlackJack blackJack) {
         System.out.println(String.format("Dealer current hand: %s\n",blackJack.dealerTotal));
-        System.out.println(String.format("=== %s ===", blackJack.dealerHand));
+        System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.dealerHand));
         if(!blackJack.playerSplitHand.isEmpty()) {
             System.out.println(String.format("\nPlayer current split hand: %s\n", blackJack.playerSplitTotal));
-            System.out.println(String.format("=== %s ===", blackJack.playerSplitHand));
+            System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.playerSplitHand));
         }
         System.out.println(String.format("\nPlayer current hand: %s\n", blackJack.playerTotal));
-        System.out.println(String.format("=== %s ===\n", blackJack.playerHand));
+        System.out.println(String.format("\t\t\t\t\t=== %s ===\n", blackJack.playerHand));
     }
 
     public void currentChipCount(Player player) {
@@ -101,20 +102,26 @@ public class BlackJackEngine {
                     break;
                 case 2:
                     blackJack.hold();
-                    if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerHand.size() > 2) {
+                    if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
                         if(blackJack.checkWinner() == true) {
                             System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot));
                             blackJack.playerWinPot();
+                            resetHandAndValues(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner() == false) {
                             System.out.println("Sorry better luck next time!");
                             blackJack.sizeOfPot = 0;
+                            resetHandAndValues(blackJack);
                             round = false;
                         }
                     }
                     break;
                 case 3:
-                    splitHand(blackJack);
+                    if(blackJack.playerHand.get(0).getCardName().equals(blackJack.playerHand.get(1))) {
+                        blackJack.playerHandSplit();
+                    } else if (!blackJack.playerSplitHand.isEmpty()) {
+                        System.out.println("Already split! Cannot split again!");
+                    } else System.out.println("Not a pair, cannot split. Please select a valid action");
                     break;
                 default:
                     System.out.println("Not a valid input");
@@ -123,12 +130,13 @@ public class BlackJackEngine {
         }
     }
 
-    public void splitHand(BlackJack blackJack) {
-        if(blackJack.playerHand.get(0).getCardName().equals(blackJack.playerHand.get(1))) {
-            blackJack.playerHandSplit();
-        } else if (!blackJack.playerSplitHand.isEmpty()) {
-            System.out.println("Already split! Cannot split again!");
-        } else System.out.println("Not a pair, cannot split. Please select a valid action");
+    public void resetHandAndValues(BlackJack blackJack) {
+        blackJack.discardHand(blackJack.playerHand);
+        blackJack.discardHand(blackJack.playerSplitHand);
+        blackJack.discardHand(blackJack.dealerHand);
+        blackJack.playerTotal = 0;
+        blackJack.playerSplitTotal = 0;
+        blackJack.dealerTotal = 0;
     }
 
 

@@ -28,7 +28,7 @@ public class BlackJack extends CardGame {
         sizeOfPot = 0;
     }
 
-    public void playerBlackJack() {
+    public void playerWinByBlackJack() {
         currentPlayer.winChips(sizeOfPot*3);
         sizeOfPot = 0;
     }
@@ -97,4 +97,29 @@ public class BlackJack extends CardGame {
         dealCards(playerSplitHand);
         playerSplitTotal += playerSplitHand.get(1).getValue();
     }
+
+    public boolean playerHaveBlackJack() {
+        return playerTotal == 21;
+    }
+
+    public boolean playerSplitHandHaveBlackJack() {
+        return playerSplitTotal == 21;
+    }
+
+    public boolean dealerHaveBlackJack() {
+        return dealerTotal == 21;
+    }
+
+    public boolean playerBust() {
+        return playerTotal > 21;
+    }
+
+    public boolean playerSplitHandBust() {
+        return playerSplitTotal > 21;
+    }
+
+    public boolean dealerBust() {
+        return dealerTotal > 21;
+    }
+
 }
