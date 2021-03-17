@@ -16,7 +16,6 @@ public class BlackJackEngine {
         PlayerWarehouse.initializePlayers();
         Player player = PlayerWarehouse.currentPlayers.get(100);
         BlackJack bj = new BlackJack(player);
-        player.setChipBalance(5000);
 
         System.out.println(String.format("Hello %s", player.getPlayerName()));
         System.out.println("Welcome To BlackJack!");
@@ -105,6 +104,7 @@ public class BlackJackEngine {
                         System.out.println("BUST! Sorry, better luck next time!");
                         blackJack.playerLosePot();
                         resetHandAndValues(blackJack);
+                        blackJack.clearDiscardAndDeck();
                         round = false;
                     }
                     if(blackJack.dealerBust()) {
@@ -112,6 +112,7 @@ public class BlackJackEngine {
                         System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", blackJack.sizeOfPot));
                         blackJack.playerWinPot();
                         resetHandAndValues(blackJack);
+                        blackJack.clearDiscardAndDeck();
                         round = false;
                     }
                     break;
@@ -122,16 +123,19 @@ public class BlackJackEngine {
                             System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot*2));
                             blackJack.playerWinPot();
                             resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
                             round = false;
                         } else if (blackJack.checkWinner() == false) {
                             System.out.println("Sorry, better luck next time!");
                             blackJack.playerLosePot();
                             resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
                             round = false;
                         } else if (blackJack.checkWinner() == null) {
                             System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
                             blackJack.tiedPot();
                             resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
                             round = false;
                         }
                     }
@@ -166,21 +170,6 @@ public class BlackJackEngine {
             System.out.println("Turn to act : *** Dealer ***");
         }
     }
-
-    public String bustChecker(BlackJack blackJack) {
-        if(blackJack.playerBust()) {
-            System.out.println("Sorry, better luck next time!");
-            blackJack.playerLosePot();
-            resetHandAndValues(blackJack);
-            return "Bust";
-        } else if(blackJack.dealerBust()) {
-            System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot));
-            blackJack.playerWinPot();
-            resetHandAndValues(blackJack);
-            return "Bust";
-        } else return "Good";
-    }
-
 
 }
 

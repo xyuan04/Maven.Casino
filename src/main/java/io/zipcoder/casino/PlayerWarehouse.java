@@ -10,6 +10,9 @@ public class PlayerWarehouse {
         Player gerg = PlayerFactory.createPlayer("Greg", 5000);
         Player nixog = PlayerFactory.createPlayer("Xiong", 5000);
         Player eab = PlayerFactory.createPlayer("Abe", 5000);
+        gerg.setChipBalance(5000);
+        nixog.setChipBalance(5000);
+        eab.setChipBalance(5000);
 
         currentPlayers.put(100, nixog);
         currentPlayers.put(200, gerg);
