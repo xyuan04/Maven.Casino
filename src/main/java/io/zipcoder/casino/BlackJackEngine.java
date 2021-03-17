@@ -45,14 +45,12 @@ public class BlackJackEngine {
                 case 1:
                     currentChipCount(player);
                     Integer bet = console.getIntegerInput("What is your bet?");
-                    boolean invalidBet = bet > player.getChipBalance();
-                    if(invalidBet) {
-                        System.out.println("Balance not enough, please lower your bet or enter 0 to cancel");
-                        break;
-                    } else if (bet == 0) {
-                        mainBlackJackMenu(bj, player, console);
-                        validInput = false;
-                        break;
+                    if(bet > player.getChipBalance()) {
+                        System.out.println("Balance not enough, please lower your bet");
+                        continue;
+                    } else if (bet < 0) {
+                        System.out.println("Please enter a positive amount");
+                        continue;
                     }
                     bj.addToPot(bet);
                     bj.playGame();
