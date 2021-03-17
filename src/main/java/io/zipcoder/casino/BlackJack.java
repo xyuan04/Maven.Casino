@@ -8,7 +8,7 @@ public class BlackJack extends CardGame {
     public List<Card> playerHand = new ArrayList<>();
     public List<Card> dealerHand = new ArrayList<>();
     public List<Card> playerSplitHand = new ArrayList<>();
-    public List currentHand = playerHand;
+    public List<Card> currentHand = playerHand;
     public int playerTotal;
     public int playerSplitTotal;
     public int dealerTotal;
@@ -26,11 +26,24 @@ public class BlackJack extends CardGame {
     public void playerWinPot() {
         currentPlayer.winChips(sizeOfPot*2);
         sizeOfPot = 0;
+        currentHand = playerHand;
+    }
+
+    public void tiedPot() {
+        currentPlayer.winChips(sizeOfPot);
+        sizeOfPot = 0;
+        currentHand = playerHand;
     }
 
     public void playerWinByBlackJack() {
         currentPlayer.winChips(sizeOfPot*3);
         sizeOfPot = 0;
+        currentHand = playerHand;
+    }
+
+    public void playerLosePot() {
+        sizeOfPot = 0;
+        currentHand = playerHand;
     }
 
     public void hitMe() {

@@ -85,7 +85,7 @@ public class BlackJackEngine {
     }
 
     public void currentChipCount(Player player) {
-        System.out.println(String.format("%s : Your current chip count is %7d", player.getPlayerName(), player.getChipBalance()));
+        System.out.println(String.format("%s : Your current chip count is %7d\n", player.getPlayerName(), player.getChipBalance()));
     }
 
 
@@ -95,22 +95,42 @@ public class BlackJackEngine {
         while(round) {
             currentHands(blackJack);
             currentChipCount(player);
-            Integer decision = console.getIntegerInput("\nWhat would you like to do?\n1 - Hit\t2 - Hold\t3 - Split");
+            currentTurnIndicator(blackJack);
+            Integer decision = console.getIntegerInput("What would you like to do?\n1 - Hit\t2 - Hold\t3 - Split");
             switch (decision) {
                 case 1:
                     blackJack.hitMe();
+                    if(blackJack.playerBust()) {
+                        currentHands(blackJack);
+                        System.out.println("BUST! Sorry, better luck next time!");
+                        blackJack.playerLosePot();
+                        resetHandAndValues(blackJack);
+                        round = false;
+                    }
+                    if(blackJack.dealerBust()) {
+                        currentHands(blackJack);
+                        System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", blackJack.sizeOfPot));
+                        blackJack.playerWinPot();
+                        resetHandAndValues(blackJack);
+                        round = false;
+                    }
                     break;
                 case 2:
                     blackJack.hold();
                     if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
                         if(blackJack.checkWinner() == true) {
-                            System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot));
+                            System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot*2));
                             blackJack.playerWinPot();
                             resetHandAndValues(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner() == false) {
-                            System.out.println("Sorry better luck next time!");
-                            blackJack.sizeOfPot = 0;
+                            System.out.println("Sorry, better luck next time!");
+                            blackJack.playerLosePot();
+                            resetHandAndValues(blackJack);
+                            round = false;
+                        } else if (blackJack.checkWinner() == null) {
+                            System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
+                            blackJack.tiedPot();
                             resetHandAndValues(blackJack);
                             round = false;
                         }
@@ -137,6 +157,28 @@ public class BlackJackEngine {
         blackJack.playerTotal = 0;
         blackJack.playerSplitTotal = 0;
         blackJack.dealerTotal = 0;
+    }
+
+    public void currentTurnIndicator(BlackJack blackJack) {
+        if(blackJack.currentHand == blackJack.playerHand || blackJack.currentHand == blackJack.playerSplitHand) {
+            System.out.println(String.format("Turn to act : *** %s ***", blackJack.currentPlayer.getPlayerName()));
+        } else if(blackJack.currentHand == blackJack.dealerHand) {
+            System.out.println("Turn to act : *** Dealer ***");
+        }
+    }
+
+    public String bustChecker(BlackJack blackJack) {
+        if(blackJack.playerBust()) {
+            System.out.println("Sorry, better luck next time!");
+            blackJack.playerLosePot();
+            resetHandAndValues(blackJack);
+            return "Bust";
+        } else if(blackJack.dealerBust()) {
+            System.out.println(String.format("Congrats! You won %s chips.", blackJack.sizeOfPot));
+            blackJack.playerWinPot();
+            resetHandAndValues(blackJack);
+            return "Bust";
+        } else return "Good";
     }
 
 

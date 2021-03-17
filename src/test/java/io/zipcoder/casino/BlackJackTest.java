@@ -610,4 +610,19 @@ public class BlackJackTest {
         //Then:
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void tiePotTest() {
+        //Given:
+        gerg.setChipBalance(3000);
+
+        //When:
+        bj.addToPot(500);
+        bj.tiedPot();
+        int expected = 3000;
+        int actual = gerg.getChipBalance();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
 }
