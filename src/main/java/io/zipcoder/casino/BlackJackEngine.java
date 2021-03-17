@@ -90,11 +90,33 @@ public class BlackJackEngine {
 
     public void roundStart(BlackJack blackJack, Player player, Console console) {
         System.out.println(String.format("Hello %s", player.getPlayerName()));
+
         boolean round = true;
         while(round) {
             currentHands(blackJack);
             currentChipCount(player);
             currentTurnIndicator(blackJack);
+            if(blackJack.playerHaveBlackJack() && blackJack.dealerHaveBlackJack() || blackJack.dealerHaveBlackJack() && blackJack.playerHaveBlackJack()) {
+                System.out.println(String.format("Both BLACKJACK! You won %s chips.", (blackJack.sizeOfPot)));
+                blackJack.tiedPot();
+                resetHandAndValues(blackJack);
+                blackJack.clearDiscardAndDeck();
+                break;
+            }
+            if(blackJack.playerHaveBlackJack()) {
+                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
+                blackJack.playerWinByBlackJack();
+                resetHandAndValues(blackJack);
+                blackJack.clearDiscardAndDeck();
+                break;
+            }
+            if(blackJack.dealerHaveBlackJack()) {
+                System.out.println("Dealer BLACKJACK! Sorry, better luck next time!");
+                blackJack.playerLosePot();
+                resetHandAndValues(blackJack);
+                blackJack.clearDiscardAndDeck();
+                break;
+            }
             Integer decision = console.getIntegerInput("What would you like to do?\n1 - Hit\t2 - Hold\t3 - Split");
             switch (decision) {
                 case 1:
@@ -141,8 +163,9 @@ public class BlackJackEngine {
                     }
                     break;
                 case 3:
-                    if(blackJack.playerHand.get(0).getCardName().equals(blackJack.playerHand.get(1))) {
-                        blackJack.playerHandSplit();
+                    if(blackJack.playerHand.get(0).getCardName().equals(blackJack.playerHand.get(1).getCardName())) {
+                        splitHandStart(blackJack, player, console);
+                        round = false;
                     } else if (!blackJack.playerSplitHand.isEmpty()) {
                         System.out.println("Already split! Cannot split again!");
                     } else System.out.println("Not a pair, cannot split. Please select a valid action");
@@ -164,10 +187,99 @@ public class BlackJackEngine {
     }
 
     public void currentTurnIndicator(BlackJack blackJack) {
-        if(blackJack.currentHand == blackJack.playerHand || blackJack.currentHand == blackJack.playerSplitHand) {
+        if(blackJack.currentHand == blackJack.playerHand) {
             System.out.println(String.format("Turn to act : *** %s ***", blackJack.currentPlayer.getPlayerName()));
-        } else if(blackJack.currentHand == blackJack.dealerHand) {
+        } else if(blackJack.currentHand == blackJack.playerSplitHand) {
+            System.out.println(String.format("Turn to act : *** %s Split Hand***", blackJack.currentPlayer.getPlayerName()));
+        }else if(blackJack.currentHand == blackJack.dealerHand) {
             System.out.println("Turn to act : *** Dealer ***");
+        }
+    }
+
+    public void splitHandStart(BlackJack blackJack, Player player, Console console) {
+        blackJack.playerHandSplit();
+
+        boolean round = true;
+        while(round) {
+            currentHands(blackJack);
+            currentChipCount(player);
+            currentTurnIndicator(blackJack);
+            if(blackJack.playerHaveBlackJack()) {
+                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
+                blackJack.playerWinByBlackJack();
+                resetHandAndValues(blackJack);
+                blackJack.clearDiscardAndDeck();
+                break;
+            }
+            if(blackJack.playerSplitHandHaveBlackJack()) {
+                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
+                blackJack.playerWinByBlackJack();
+                resetHandAndValues(blackJack);
+                blackJack.clearDiscardAndDeck();
+                break;
+            }
+            Integer decision = console.getIntegerInput("What would you like to do?\n1 - Hit\t2 - Hold");
+            switch (decision) {
+                case 1:
+                    blackJack.hitMe();
+                    if(blackJack.playerBust()) {
+                        currentHands(blackJack);
+                        System.out.println("BUST! Next hand.");
+                        blackJack.splitHold();
+                    }
+                    if(blackJack.playerSplitHandBust()) {
+                        currentHands(blackJack);
+                        System.out.println("BUST! Sorry, better luck next time!");
+                        blackJack.playerLosePot();
+                        resetHandAndValues(blackJack);
+                        blackJack.clearDiscardAndDeck();
+                        round = false;
+                    }
+                    if(blackJack.dealerBust()) {
+                        currentHands(blackJack);
+                        System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", (blackJack.sizeOfPot*2)));
+                        blackJack.playerWinPot();
+                        resetHandAndValues(blackJack);
+                        blackJack.clearDiscardAndDeck();
+                        round = false;
+                    }
+                    break;
+                case 2:
+                    if(blackJack.currentHand == blackJack.playerHand) {
+                        blackJack.splitHold();
+                        break;
+                    }
+                    if(blackJack.currentHand == blackJack.playerSplitHand) {
+                        blackJack.hold();
+                        break;
+                    }
+                    blackJack.hold();
+                    if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
+                        if(blackJack.checkWinner().equals("Player") || blackJack.checkSplitWinner().equals("Player")) {
+                            System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
+                            blackJack.playerWinPot();
+                            resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
+                            round = false;
+                        } else if (blackJack.checkWinner().equals("Dealer") && blackJack.checkSplitWinner().equals("Dealer")) {
+                            System.out.println("Sorry, better luck next time!");
+                            blackJack.playerLosePot();
+                            resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
+                            round = false;
+                        } else if (blackJack.checkWinner().equals("Tie") || blackJack.checkSplitWinner().equals("Tie")) {
+                            System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
+                            blackJack.tiedPot();
+                            resetHandAndValues(blackJack);
+                            blackJack.clearDiscardAndDeck();
+                            round = false;
+                        }
+                    }
+                    break;
+                default:
+                    System.out.println("Not a valid input");
+                    break;
+            }
         }
     }
 

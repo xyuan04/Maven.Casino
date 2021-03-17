@@ -112,15 +112,24 @@ public class BlackJack extends CardGame {
     }
 
     public boolean playerHaveBlackJack() {
-        return playerTotal == 21;
+        if (playerTotal == 21 && (playerHand.get(0).getCardName().equals("A") || playerHand.get(1).getCardName().equals("A"))) {
+            return true;
+        }
+        return false;
     }
 
     public boolean playerSplitHandHaveBlackJack() {
-        return playerSplitTotal == 21;
+        if (playerSplitTotal == 21 && (playerSplitHand.get(0).getCardName().equals("A") || playerSplitHand.get(1).getCardName().equals("A"))) {
+            return true;
+        }
+        return false;
     }
 
     public boolean dealerHaveBlackJack() {
-        return dealerTotal == 21;
+        if (dealerTotal == 21 && (dealerHand.get(0).getCardName().equals("A") || dealerHand.get(1).getCardName().equals("A"))) {
+            return true;
+        }
+        return false;
     }
 
     public boolean playerBust() {

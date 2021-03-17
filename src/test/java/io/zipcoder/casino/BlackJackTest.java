@@ -446,6 +446,11 @@ public class BlackJackTest {
     @Test
     public void playerHaveBlackJackTrueTest() {
         //Given:
+        Card AceOfSpades=new Card("A", "Spades", 11);
+        Card TenOfSpades=new Card("10", "Spades", 10);
+        Card EightOfSpades=new Card("8", "Spades", 8);
+        bj.playerHand.add(AceOfSpades);
+        bj.playerHand.add(TenOfSpades);
         bj.playerTotal = 21;
         bj.dealerTotal = 20;
 
@@ -460,7 +465,12 @@ public class BlackJackTest {
     @Test
     public void playerHaveBlackJackFalseTest() {
         //Given:
-        bj.playerTotal = 18;
+        Card AceOfSpades=new Card("A", "Spades", 11);
+        Card TenOfSpades=new Card("10", "Spades", 10);
+        Card EightOfSpades=new Card("8", "Spades", 8);
+        bj.playerHand.add(EightOfSpades);
+        bj.playerHand.add(TenOfSpades);
+        bj.playerTotal = 21;
         bj.dealerTotal = 20;
 
         //When:
@@ -474,6 +484,11 @@ public class BlackJackTest {
     @Test
     public void playerSplitHandHaveBlackJackTrueTest() {
         //Given:
+        Card AceOfSpades=new Card("A", "Spades", 11);
+        Card TenOfSpades=new Card("10", "Spades", 10);
+        Card EightOfSpades=new Card("8", "Spades", 8);
+        bj.playerSplitHand.add(TenOfSpades);
+        bj.playerSplitHand.add(AceOfSpades);
         bj.playerSplitTotal = 21;
         bj.dealerTotal = 18;
 
@@ -488,6 +503,11 @@ public class BlackJackTest {
     @Test
     public void playerSplitHandHaveBlackJackFalseTest() {
         //Given:
+        Card AceOfSpades=new Card("A", "Spades", 11);
+        Card TenOfSpades=new Card("10", "Spades", 10);
+        Card EightOfSpades=new Card("8", "Spades", 8);
+        bj.playerSplitHand.add(EightOfSpades);
+        bj.playerSplitHand.add(TenOfSpades);
         bj.playerSplitTotal = 16;
         bj.dealerTotal = 18;
 
@@ -502,6 +522,10 @@ public class BlackJackTest {
     @Test
     public void dealerHaveBlackJackTrueTest() {
         //Given:
+        Card AceOfSpades=new Card("A", "Spades", 11);
+        Card TenOfSpades=new Card("10", "Spades", 10);
+        bj.dealerHand.add(AceOfSpades);
+        bj.dealerHand.add(TenOfSpades);
         bj.playerTotal = 20;
         bj.dealerTotal = 21;
 
