@@ -22,17 +22,6 @@ public class BlackJackEngine {
 
         while (gameOn) {
             mainBlackJackMenu(bj, player, console);
-//            String choice = console.getStringInput("Would you like to play again? Yes/No");
-//            while(true) {
-//                if(choice.equalsIgnoreCase("yes")) {
-//                    continue;
-//                } else if (choice.equalsIgnoreCase("no")) {
-//                    System.out.println("Good bye!");
-//                    gameOn = false;
-//                } else choice = console.getStringInput("Please choose yes or no");
-//                break;
-//            }
-
         }
     }
 
@@ -67,24 +56,6 @@ public class BlackJackEngine {
             }
         }
     }
-
-
-
-    public void currentHands(BlackJack blackJack) {
-        System.out.println(String.format("Dealer current hand: %s\n",blackJack.dealerTotal));
-        System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.dealerHand));
-        if(!blackJack.playerSplitHand.isEmpty()) {
-            System.out.println(String.format("\nPlayer current split hand: %s\n", blackJack.playerSplitTotal));
-            System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.playerSplitHand));
-        }
-        System.out.println(String.format("\nPlayer current hand: %s\n", blackJack.playerTotal));
-        System.out.println(String.format("\t\t\t\t\t=== %s ===\n", blackJack.playerHand));
-    }
-
-    public void currentChipCount(Player player) {
-        System.out.println(String.format("%s : Your current chip count is %7d\n", player.getPlayerName(), player.getChipBalance()));
-    }
-
 
     public void roundStart(BlackJack blackJack, Player player, Console console) {
         System.out.println(String.format("Hello %s", player.getPlayerName()));
@@ -138,6 +109,11 @@ public class BlackJackEngine {
                     break;
                 case 2:
                     blackJack.hold();
+                    while (blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal < 16) {
+                        blackJack.hitMe();
+                        System.out.println(String.format("Dealer hits and gets a %s", blackJack.dealerHand.get(blackJack.dealerHand.size() - 1)));
+                        currentHands(blackJack);
+                    }
                     if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
                         if(blackJack.checkWinner().equals("Player")) {
                             System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
@@ -172,25 +148,6 @@ public class BlackJackEngine {
                     System.out.println("Not a valid input");
                     break;
             }
-        }
-    }
-
-    public void resetHandAndValues(BlackJack blackJack) {
-        blackJack.discardHand(blackJack.playerHand);
-        blackJack.discardHand(blackJack.playerSplitHand);
-        blackJack.discardHand(blackJack.dealerHand);
-        blackJack.playerTotal = 0;
-        blackJack.playerSplitTotal = 0;
-        blackJack.dealerTotal = 0;
-    }
-
-    public void currentTurnIndicator(BlackJack blackJack) {
-        if(blackJack.currentHand == blackJack.playerHand) {
-            System.out.println(String.format("Turn to act : *** %s ***", blackJack.currentPlayer.getPlayerName()));
-        } else if(blackJack.currentHand == blackJack.playerSplitHand) {
-            System.out.println(String.format("Turn to act : *** %s Split Hand***", blackJack.currentPlayer.getPlayerName()));
-        }else if(blackJack.currentHand == blackJack.dealerHand) {
-            System.out.println("Turn to act : *** Dealer ***");
         }
     }
 
@@ -281,5 +238,38 @@ public class BlackJackEngine {
         }
     }
 
+    public void currentHands(BlackJack blackJack) {
+        System.out.println(String.format("Dealer current hand: %s\n",blackJack.dealerTotal));
+        System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.dealerHand));
+        if(!blackJack.playerSplitHand.isEmpty()) {
+            System.out.println(String.format("\nPlayer current split hand: %s\n", blackJack.playerSplitTotal));
+            System.out.println(String.format("\t\t\t\t\t=== %s ===", blackJack.playerSplitHand));
+        }
+        System.out.println(String.format("\nPlayer current hand: %s\n", blackJack.playerTotal));
+        System.out.println(String.format("\t\t\t\t\t=== %s ===\n", blackJack.playerHand));
+    }
+
+    public void currentChipCount(Player player) {
+        System.out.println(String.format("%s : Your current chip count is %7d\n", player.getPlayerName(), player.getChipBalance()));
+    }
+
+    public void resetHandAndValues(BlackJack blackJack) {
+        blackJack.discardHand(blackJack.playerHand);
+        blackJack.discardHand(blackJack.playerSplitHand);
+        blackJack.discardHand(blackJack.dealerHand);
+        blackJack.playerTotal = 0;
+        blackJack.playerSplitTotal = 0;
+        blackJack.dealerTotal = 0;
+    }
+
+    public void currentTurnIndicator(BlackJack blackJack) {
+        if(blackJack.currentHand == blackJack.playerHand) {
+            System.out.println(String.format("Turn to act : *** %s ***", blackJack.currentPlayer.getPlayerName()));
+        } else if(blackJack.currentHand == blackJack.playerSplitHand) {
+            System.out.println(String.format("Turn to act : *** %s Split Hand***", blackJack.currentPlayer.getPlayerName()));
+        }else if(blackJack.currentHand == blackJack.dealerHand) {
+            System.out.println("Turn to act : *** Dealer ***");
+        }
+    }
 }
 
