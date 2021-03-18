@@ -16,11 +16,6 @@ public class BlackJackEngine {
         System.out.println(String.format("Hello %s", player.getPlayerName()));
         System.out.println("Welcome To BlackJack!");
 
-            mainBlackJackMenu(bj, player, console);
-    }
-
-    public void mainBlackJackMenu(BlackJack bj, Player player, Console console) {
-
         boolean validInput = true;
         while(validInput) {
             Integer input = console.getIntegerInput("Play? 1 - Yes or 2 - No");
