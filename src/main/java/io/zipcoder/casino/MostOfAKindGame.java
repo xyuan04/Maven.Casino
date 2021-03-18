@@ -12,9 +12,10 @@ public class MostOfAKindGame extends DiceGame {
     int dealerMatchingNum;
     int dealerCount;
     int playerCount;
+    Player currentPlayer;
 
-    public void addToPot(int numOfChips) {
-        pot += numOfChips;
+    public MostOfAKindGame(Player player) {
+        this.currentPlayer = player;
     }
 
     public int getPot() {
@@ -35,6 +36,13 @@ public class MostOfAKindGame extends DiceGame {
             doIWin = true;
         } else if (getDealerCount() > getPlayerCount()) {
             doIWin = false;
+        } else if (getDealerCount() == getPlayerCount()) {
+            if (playerMatchingNum > dealerMatchingNum) {
+                doIWin = true;
+            } else if (dealerMatchingNum > playerMatchingNum) {
+                //catches when dealerMatchingNum bigger
+                doIWin = false;
+            }
         }
         return doIWin;
     }
@@ -69,10 +77,11 @@ public class MostOfAKindGame extends DiceGame {
     }
 
     public ArrayList<Integer> getPlayerHand() {
-        return this.playerDiceHand;
+        return playerDiceHand;
     }
 
     public void exchangePlayerDice(int numToKeep) {
+        playerMatchingNum = numToKeep;
         ArrayList<Integer> newHand = new ArrayList<Integer>();
         int numOfDiceKeeping = 0;
         for (int i = 0; i < getPlayerHand().size(); i++) {
@@ -87,6 +96,7 @@ public class MostOfAKindGame extends DiceGame {
     }
 
     public void exchangeDealerDice(int numToKeep) {
+        dealerMatchingNum = numToKeep;
         ArrayList<Integer> newDealerHand = new ArrayList<Integer>();
         int numOfDiceKeeping = 0;
         for (int i = 0; i < getDealerHand().size(); i++) {
@@ -133,5 +143,55 @@ public class MostOfAKindGame extends DiceGame {
                 dealerCount++;
             }
         }
+    }
+
+    public void dealerAINumbersToKeep(ArrayList<Integer> dealerHand) {
+        int matchOne;
+        int counterOne = 1;
+        int matchTwo = 0;
+        int counterTwo = 1;
+
+        for (int i = 0; i < dealerHand.size()-1; i++) {
+            matchOne = dealerHand.get(i);
+            for (int j = i+1; j < dealerHand.size(); j++) {
+                if (dealerHand.get(j) == dealerHand.get(i)) {
+                    counterOne++;
+                }
+            }
+            if (counterOne > counterTwo) {
+                matchTwo = matchOne;
+                counterTwo = counterOne;
+            } else if (counterOne == counterTwo) {
+                if (matchOne > matchTwo) {
+                    matchTwo = matchOne;
+                    counterTwo = counterOne;
+                }
+            }
+            counterOne = 1;
+        }
+        dealerMatchingNum = matchTwo;
+        dealerCount = counterTwo;
+    }
+
+    public void anteUp() {
+        currentPlayer.bet(5);
+        pot += 5;
+    }
+
+    public void addToPot(int numOfChips) {
+        pot += numOfChips;
+        currentPlayer.wageMoney(numOfChips);
+    }
+
+    public void clearPlayerHand() {
+        playerDiceHand.clear();
+    }
+
+    public void clearDealerHand() {
+        dealerHand.clear();
+    }
+
+    public void playerWinsPot(int pot) {
+        currentPlayer.winChips(pot * 2);
     }
 }

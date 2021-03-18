@@ -56,6 +56,7 @@ public class DisplayMainCasinoScreens extends Displays{
         println("     3: BlackJack Room        ");
         println("     4: Craps Room            ");
         println("     5: Poker Dice Room       ");
+        println("     00: Leave                ");
         println("                              ");
         println(" *Don't need chips to play    ");
         println("                              ");
@@ -71,6 +72,7 @@ public class DisplayMainCasinoScreens extends Displays{
         println("    3: BlackJack Room         ");
         println("    4: Craps Room             ");
         println("    5: Poker Dice Room        ");
+        println("    00: Leave                 ");
         println("                              ");
         println(" *Don't need chips to play    ");
         println("                              ");
@@ -113,5 +115,14 @@ public class DisplayMainCasinoScreens extends Displays{
         println("   ---------------------      ");
         println("   1: Another transaction     ");
         println("   2: Exit                    ");
+    }
+
+    public void howManyChipsScreen (int cashIn) {
+        println("                              ");
+        println("  Your new chip balance:      ");
+        println("          %s                  ", cashIn);
+        println("                              ");
+        println("   00: Casino Lobby           ");
+        println("                              ");
     }
 }

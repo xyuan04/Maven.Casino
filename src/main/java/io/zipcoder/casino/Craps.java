@@ -16,6 +16,7 @@ public class Craps extends DiceGame {
 
     public void addToPot(int numOfChips) {
         pot += numOfChips;
+        currentPlayer.wageMoney(numOfChips);
     }
 
     public int getPot() {
@@ -119,5 +120,13 @@ public class Craps extends DiceGame {
 
     public String getBetStatus() {
         return betStatus.toString();
+    }
+
+    public int getCurrentSum() {
+        return currentSum;
+    }
+
+    public void playerWinsPot(int chipsInPot) {
+        currentPlayer.winChips(chipsInPot * 2);
     }
 }

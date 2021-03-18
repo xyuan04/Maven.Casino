@@ -184,7 +184,7 @@ public class GoFishTest {
     }
 
     @Test
-    public void testDrawAnyKings4(){
+    public void testBookClose(){
         GoFish friendlyGame=new GoFish();
         ArrayList<Card> oswald= new ArrayList<>();
         friendlyGame.makeDeck();
@@ -256,5 +256,4 @@ public class GoFishTest {
 
         Assert.assertTrue(friendlyGame.completeSet(oswald, "K"));
     }
-
 }

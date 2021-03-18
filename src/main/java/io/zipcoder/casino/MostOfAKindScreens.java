@@ -10,7 +10,7 @@ public class MostOfAKindScreens extends Displays{
         println("  -------------------------  ");
         println("   Would you like to play?   ");
         println("                             ");
-        println("         Y or N              ");
+        println("       1: Yes   2: No        ");
         println("                             ");
     }
 
@@ -20,7 +20,7 @@ public class MostOfAKindScreens extends Displays{
         println("  -------------------------  ");
         println("   Would you like to play?   ");
         println("                             ");
-        println("         Y or N              ");
+        println("      1: Yes   2: No         ");
         println("                             ");
     }
 
@@ -53,6 +53,8 @@ public class MostOfAKindScreens extends Displays{
         println("                             ");
         println("Which number do you want to keep?");
         println("                             ");
+        println("   0: Roll all dice again    ");
+        println("                             ");
     }
 
     //SECOND ROLL
@@ -79,6 +81,11 @@ public class MostOfAKindScreens extends Displays{
         println("%s                           ", dealerDice);
         println("                             ");
         println("       YOU WIN!              ");
+        println("                             ");
+        println(" Do you want to play again?  ");
+        println("                             ");
+        println("      1: Yes  2: No          ");
+        println("                             ");
     }
 
     public void revealHandsDealerWins(int pot, ArrayList<Integer> playerDice, ArrayList<Integer> dealerDice) {
@@ -92,6 +99,10 @@ public class MostOfAKindScreens extends Displays{
         println("%s                           ", dealerDice);
         println("                             ");
         println("      House wins             ");
+        println("                             ");
+        println(" Do you want to play again?  ");
+        println("                             ");
+        println("      1: Yes  2: No          ");
         println("                             ");
     }
 
@@ -109,8 +120,25 @@ public class MostOfAKindScreens extends Displays{
         println("                           ");
         println("     Good Luck!            ");
         println("                           ");
+        println("  0: Return to lobby       ");
+        println("                           ");
     }
 
 
+    public void needMoreChipsScreen() {
+        println("                           ");
+        println("    You need more chips    ");
+        println("                           ");
+        println("    0: Go back to lobby    ");
+        println("                           ");
+    }
 
+    public void getMoreChips() {
+        println("                           ");
+        println("    Insufficient Chips     ");
+        println("                           ");
+        println("   0: Go back to lobby     ");
+        println("   1: Enter different bet  ");
+        println("                           ");
+    }
 }

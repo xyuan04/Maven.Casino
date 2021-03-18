@@ -2,6 +2,7 @@ package io.zipcoder.casino;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GoFish extends CardGame {
     private List<Card> oswald= new ArrayList<>();
@@ -14,48 +15,23 @@ public class GoFish extends CardGame {
 
     public GoFish(Player current){
         currentplayer=current;
-        makeDeck();
-        shuffleDeck();
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
     }
 
     //blank constructor, mostly to make tests easier.
     public GoFish(){
-        makeDeck();
-        shuffleDeck();
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
-        dealCards(oswald);
-        dealCards(dealer);
+
     }
 
     public void playGame() {
         System.out.println("Welcome to Go Fish, "+currentplayer.getPlayerName());
         System.out.println("This is a nice, friendly game so don't worry about " +
                 "the chips, okay?");
+        System.out.println("Are you ready to begin? (enter 'yes' or 'y')");
+        String input = Displays.getStringInput();
+        Boolean stillPlaying;
+        //The game setup for if you agre to play starts here
+        while(input.equalsIgnoreCase("yes")||input.equalsIgnoreCase("y")){
+            newGameState();
         for(int i=0; i<7;i++){
         if (completeSet(oswald, oswald.get(0).getCardName())){
             playerScore++;
@@ -66,7 +42,27 @@ public class GoFish extends CardGame {
         }
         if(playerScore>0||dealerScore>0){
             System.out.println("We already have some books! Crazy!");}
-
+           stillPlaying=true;
+            //The actual GAME starts here.
+            while(stillPlaying==true) {
+                //player takes their turn
+                if(stillPlaying==true){
+                    System.out.println("You have "+playerScore+" books.");
+                    turnStructure();}
+                //end step for player, checks for winner
+                if(dealer.size()==0||oswald.size()==0||books.size()==12){
+                    stillPlaying=false;}
+                if(stillPlaying==true){turnStructureAI();
+                    System.out.println("The dealer has "+dealerScore+" books.");}
+                //end step for dealer, checks for winner
+                if(dealer.size()==0||oswald.size()==0||books.size()==12){
+                    stillPlaying=false;}
+            }
+            System.out.println(checkWinner());
+            System.out.println("Did you want to play again? (enter 'yes' or 'y')");
+            input = Displays.getStringInput();
+        }
+        System.out.println("Okay then, take care and thanks for playing!");
     }
 
     public String checkWinner() {
@@ -74,6 +70,29 @@ public class GoFish extends CardGame {
         else return "You win! Congrats!";
     }
 
+    public void newGameState(){
+        clearDiscardAndDeck();
+        oswald.clear();
+        dealer.clear();
+        dealerScore=0;
+        playerScore=0;
+        makeDeck();
+        shuffleDeck();
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+        dealCards(oswald);
+        dealCards(dealer);
+    }
 
 
 
@@ -82,6 +101,8 @@ public class GoFish extends CardGame {
         Boolean takeAnotherTurn=true;
         String input="";
         while (takeAnotherTurn) {
+            System.out.print(seeHand(oswald));
+            if(books.size()>0){System.out.println(showBooks());}
             System.out.println("Alright, Go fish!");
             takeAnotherTurn=false;
             legalchoice=false;
@@ -95,7 +116,6 @@ public class GoFish extends CardGame {
                 }
             }
             if (gotAnyKings(dealer, input)) {
-                System.out.println("You caught fish!");
                 takeCards(oswald, dealer, input);
                 takeAnotherTurn=true;
                 System.out.println("You caught a fish! You get another turn!");
@@ -106,6 +126,7 @@ public class GoFish extends CardGame {
             } else {
                 System.out.println("Whoops! No bites, better draw!");
                 dealCards(oswald);
+                System.out.println("You drew: "+showCard(oswald, oswald.size()-1));
                 if(completeSet(oswald, oswald.get(oswald.size()-1).getCardName())){
                     playerScore++;
                     System.out.println("Congrats, you closed a book!");
@@ -117,6 +138,41 @@ public class GoFish extends CardGame {
             }
         }
         System.out.println("Turn over!");
+    }
+
+    public void turnStructureAI(){
+        Boolean takeAnotherTurn=true;
+        String input="";
+        while (takeAnotherTurn) {
+            System.out.println("Okay, now it's the dealer's turn!");
+            takeAnotherTurn=false;
+            Random r=new Random();
+            Integer rand=r.nextInt(dealer.size());
+            input=dealer.get(rand).getCardName();
+            System.out.println("Dealer asks: 'got any "+input+"'s?");
+
+            if (gotAnyKings(oswald, input)) {
+                takeCards(dealer,oswald,input);
+                System.out.println("Dealer caught a fish! They get another turn!");
+                takeAnotherTurn=true;
+                if(completeSet(dealer, input)){
+                    dealerScore++;
+                    System.out.println("Dealer closes a book!");
+                }
+            } else {
+                dealCards(dealer);
+                System.out.println("You didn't! Dealer draws a "+showCard(dealer, dealer.size()-1)+"!");
+                if(completeSet(dealer, dealer.get(dealer.size()-1).getCardName())){
+                    dealerScore++;
+                    System.out.println("Dealer closes a book!");
+                }
+                if(drawAnyKings(dealer,input)){
+                    takeAnotherTurn=true;
+                    System.out.println("Dealer drew a fish! They get another turn!");
+                }
+            }
+        }
+        System.out.println("Dealer's turn over!");
     }
 
     public Integer cardsInHand(List<Card> player){
@@ -139,7 +195,7 @@ public class GoFish extends CardGame {
 
     public Boolean gotAnyKings(List<Card> hand, String name) {
         for(Card i:hand){
-            if(name.equals(i.getCardName())){
+            if(name.equalsIgnoreCase(i.getCardName())){
                 return true;
             }
         }
@@ -148,22 +204,23 @@ public class GoFish extends CardGame {
 
     public void takeCards(List<Card> taker, List<Card> taken, String name) {
         for(int i=0;i<taken.size();i++){
-            if(name.equals(taken.get(i).getCardName())){
+            if(name.equalsIgnoreCase(taken.get(i).getCardName())){
                 taker.add(taken.get(i));
                 taken.remove(i);
+                i=0;
             }
         }
     }
 
     public Boolean drawAnyKings(List<Card> player, String name) {
-        if(name.equals(player.get(player.size()-1).getCardName())){
+        if(name.equalsIgnoreCase(player.get(player.size()-1).getCardName())){
             return true;
         }
         return false;
     }
 
     public String showBooks(){
-        String temp="";
+        String temp="Completed books so far: ";
                for(String i:books){
                             temp=temp.concat(i+", ");
                }

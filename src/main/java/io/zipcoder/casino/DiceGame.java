@@ -7,7 +7,8 @@ public abstract class DiceGame implements GamblingGame {
     ArrayList<Integer> playerDiceHand = new ArrayList<Integer>();
     int pot = 0;
     
-    public void addToPot() {}
+    public void addToPot() {
+    }
 
     public void clearPot() {
         pot = 0;

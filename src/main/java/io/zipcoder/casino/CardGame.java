@@ -165,4 +165,8 @@ abstract class CardGame implements Game {
         discardPile.clear();
     }
 
+    public Integer getCardsLeftInDeck(){
+        return deck.size();
+    }
+
 }

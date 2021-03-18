@@ -86,7 +86,24 @@ public class CrapsScreens extends Displays {
         println("                           ");
     }
 
-    public void betAmountRoundTwoScreen(int roundOfGame, String betStatus, int pot, int pointer, int sumOfDice) {
+//    public void betAmountRoundTwoScreen(int roundOfGame, String betStatus, int pot, int pointer, int sumOfDice) {
+//        println("                           ");
+//        println("       ROUND: %s           ", roundOfGame);
+//        println("                           ");
+//        println("    Bet Status: %s         ", betStatus);
+//        println("                           ");
+//        println("   Chips in pot: %s        ", pot);
+//        println("                           ");
+//        println("      Pointer: %s          ", pointer);
+//        println("                           ");
+//        println("     Your roll: %s         ", sumOfDice);
+//        println("                           ");
+//        println(" How much are you betting? ");
+//        println(" ------------------------- ");
+//        println("                           ");
+//    }
+
+    public void rollAgainOnward(int roundOfGame, String betStatus, int pot, int pointer) {
         println("                           ");
         println("       ROUND: %s           ", roundOfGame);
         println("                           ");
@@ -95,11 +112,8 @@ public class CrapsScreens extends Displays {
         println("   Chips in pot: %s        ", pot);
         println("                           ");
         println("      Pointer: %s          ", pointer);
-        println("                           ");
-        println("     Your roll: %s         ", sumOfDice);
-        println("                           ");
-        println(" How much are you betting? ");
-        println(" ------------------------- ");
+        println("     -------------         ");
+        println("   Enter 1 to roll dice    ");
         println("                           ");
     }
 
@@ -117,6 +131,9 @@ public class CrapsScreens extends Displays {
         println("    ---------------        ");
         println("       You Win!            ");
         println("                           ");
+        println("      Play again?          ");
+        println("     1: Yes  2: No         ");
+        println("                           ");
     }
 
     public void loseRollScreen(int roundOfGame, int pot, int sumOfDice, String betStatus) {
@@ -131,9 +148,31 @@ public class CrapsScreens extends Displays {
         println("    ---------------        ");
         println("      You Lose...          ");
         println("                           ");
+        println("      Play again?          ");
+        println("     1: Yes  2: No         ");
+        println("                           ");
     }
 
-    public void rollAgainScreen(int roundOfGame, int pot, int sumOfDice, String betStatus, int pointer) {
+//    public void rollAgainScreen(int roundOfGame, int pot, int sumOfDice, String betStatus, int pointer) {
+//        println("                           ");
+//        println("       ROUND: %s           ", roundOfGame);
+//        println("                           ");
+//        println("     Bet Status: %s        ", betStatus);
+//        println("                           ");
+//        println("    Chips in Pot: %s       ", pot);
+//        println("                           ");
+//        println("    You rolled a %s        ", sumOfDice);
+//        println("                           ");
+//        println("      Pointer: %s          ", pointer);
+//        println("    ---------------        ");
+//        println("      Roll again!          ");
+//        println("                           ");
+//        println("   How are you betting?    ");
+//        println(" ------------------------- ");
+//        println("                           ");
+//    }
+
+    public void rollAgainBetScreen(int roundOfGame, int pot, int sumOfDice, String betStatus, int pointer) {
         println("                           ");
         println("       ROUND: %s           ", roundOfGame);
         println("                           ");
@@ -145,9 +184,10 @@ public class CrapsScreens extends Displays {
         println("                           ");
         println("      Pointer: %s          ", pointer);
         println("    ---------------        ");
-        println("      Roll again!          ");
-        println("        Enter 1            ");
+        println(" How much are you betting? ");
+        println(" ------------------------- ");
         println("                           ");
+
     }
 
 
@@ -164,6 +204,17 @@ public class CrapsScreens extends Displays {
         println("                           ");
         println("     Good Luck!            ");
         println("                           ");
+        println("   0: Return to lobby       ");
+    }
+
+    public void getMoreChips() {
+        println("                           ");
+        println("   Insufficient Chips      ");
+        println("                           ");
+        println("   Please go get more      ");
+        println("                           ");
+        println("   0: Return to lobby       ");
+        println("   1: Enter different bet  ");
     }
 }
 
