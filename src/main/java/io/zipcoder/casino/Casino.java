@@ -18,7 +18,7 @@ public class Casino {
 //    CrapsEngine crapsEngine = new CrapsEngine(Player player);
 //    MostOfAKindEngine moak = new MostOfAKindEngine();
     ChipMoneyExchange exchange = new ChipMoneyExchange();
-    //Player currentPlayer = new Player("gerg", 500);
+
 
 
     public static void main(String[] args) {

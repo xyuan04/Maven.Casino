@@ -7,6 +7,7 @@ public class CrapsEngine {
     CrapsScreens cScreens = new CrapsScreens();
     DisplayMainCasinoScreens casinoScreens = new DisplayMainCasinoScreens();
     Player player;
+    Casino casino = new Casino();
 
 
     public CrapsEngine(Player player) {
@@ -44,9 +45,9 @@ public class CrapsEngine {
         cScreens.crapsInvalidWelcomeScreen();
     }
 
-    //TEMPORARY
-    public void casinoLobby(Craps craps, Player player, Console console) {
 
+    public void casinoLobby(Craps craps, Player player, Console console) {
+        casino.casinoLobbyScreen(player);
     }
 
     public void passOrNotPassRoundOneScreen(int gameRound, Craps craps, Player player, Console console) {
