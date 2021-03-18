@@ -22,9 +22,14 @@ public class Card {
         return cardValue;
     }
 
+    public void setValue(int newValue) {
+        cardValue = newValue;
+    }
+
     public String getCardSuit(){
         return cardSuit;
     }
+
 
     @Override
     public String toString() {

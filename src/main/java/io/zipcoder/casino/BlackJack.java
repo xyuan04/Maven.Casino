@@ -48,12 +48,22 @@ public class BlackJack extends CardGame {
 
     public void hitMe() {
         dealCards(currentHand);
+        int currentValue = 0;
         if(currentHand == playerHand) {
-            playerTotal += playerHand.get(playerHand.size() - 1).getValue();
+            for(int i = 0; i < playerHand.size(); i++) {
+                currentValue += playerHand.get(i).getValue();
+            }
+            playerTotal = currentValue;
         } else if(currentHand == playerSplitHand) {
-            playerSplitTotal += playerSplitHand.get(playerSplitHand.size() - 1).getValue();
+            for(int i = 0; i < playerSplitHand.size(); i++) {
+                currentValue += playerSplitHand.get(i).getValue();
+            }
+            playerSplitTotal = currentValue;
         } else if(currentHand == dealerHand) {
-            dealerTotal += dealerHand.get(dealerHand.size() - 1).getValue();
+            for(int i = 0; i < dealerHand.size(); i++) {
+                currentValue += dealerHand.get(i).getValue();
+            }
+            dealerTotal = currentValue;
         }
     }
 

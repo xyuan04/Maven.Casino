@@ -34,4 +34,13 @@ public class CardTest {
         Integer actual = joker.getValue();
         Assert.assertEquals(expected,actual);
     }
+
+    @Test
+    public void setCardValueTest(){
+        Card joker= new Card("3", "Hearts", 3);
+        Integer expected = 7;
+        joker.setValue(7);
+        Integer actual = joker.getValue();
+        Assert.assertEquals(expected,actual);
+    }
 }

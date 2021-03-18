@@ -9,7 +9,7 @@ abstract class CardGame implements Game {
     private List<Card>discardPile=new ArrayList<Card>();
 
 
-    private Card AceOfSpades=new Card("A", "Spades", 11);
+    public Card AceOfSpades=new Card("A", "Spades", 11);
     private Card TwoOfSpades=new Card("2", "Spades", 2);
     private Card ThreeOfSpades=new Card("3", "Spades", 3);
     private Card FourOfSpades=new Card("4", "Spades", 4);
@@ -23,7 +23,7 @@ abstract class CardGame implements Game {
     private Card QueenOfSpades=new Card("Q", "Spades", 10);
     private Card KingOfSpades=new Card("K", "Spades", 10);
 
-    private Card AceOfClubs=new Card("A", "Clubs", 11);
+    public Card AceOfClubs=new Card("A", "Clubs", 11);
     private Card TwoOfClubs=new Card("2", "Clubs", 2);
     private Card ThreeOfClubs=new Card("3", "Clubs", 3);
     private Card FourOfClubs=new Card("4", "Clubs", 4);
@@ -37,7 +37,7 @@ abstract class CardGame implements Game {
     private Card QueenOfClubs=new Card("Q", "Clubs", 10);
     private Card KingOfClubs=new Card("K", "Clubs", 10);
 
-    private Card AceOfDiamonds=new Card("A", "Diamonds", 11);
+    public Card AceOfDiamonds=new Card("A", "Diamonds", 11);
     private Card TwoOfDiamonds=new Card("2", "Diamonds", 2);
     private Card ThreeOfDiamonds=new Card("3", "Diamonds", 3);
     private Card FourOfDiamonds=new Card("4", "Diamonds", 4);
@@ -51,7 +51,7 @@ abstract class CardGame implements Game {
     private Card QueenOfDiamonds=new Card("Q", "Diamonds", 10);
     private Card KingOfDiamonds=new Card("K", "Diamonds", 10);
 
-    private Card AceOfHearts=new Card("A", "Hearts", 11);
+    public Card AceOfHearts=new Card("A", "Hearts", 11);
     private Card TwoOfHearts=new Card("2", "Hearts", 2);
     private Card ThreeOfHearts=new Card("3", "Hearts", 3);
     private Card FourOfHearts=new Card("4", "Hearts", 4);
