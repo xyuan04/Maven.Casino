@@ -52,35 +52,22 @@ public class BlackJackEngine {
 
         boolean round = true;
         while(round) {
-            playerTurnHands(blackJack);
-            currentChipCount(player);
-            currentPot(blackJack);
-            currentTurnIndicator(blackJack);
+            roundStartOperations(blackJack, player);
             if(blackJack.playerHaveBlackJack() && blackJack.dealerHaveBlackJack() || blackJack.dealerHaveBlackJack() && blackJack.playerHaveBlackJack()) {
                 currentHands(blackJack);
                 System.out.println(String.format("Both BLACKJACK! You won %s chips.", (blackJack.sizeOfPot)));
-                blackJack.tiedPot();
-                resetAceValue(blackJack);
-                resetHandAndValues(blackJack);
-                blackJack.clearDiscardAndDeck();
+                playerTiesPot(blackJack);
                 break;
             }
             if(blackJack.playerHaveBlackJack()) {
                 currentHands(blackJack);
-                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
-                blackJack.playerWinByBlackJack();
-                resetAceValue(blackJack);
-                resetHandAndValues(blackJack);
-                blackJack.clearDiscardAndDeck();
+                playerWinsByBlackJack(blackJack);
                 break;
             }
             if(blackJack.dealerHaveBlackJack()) {
                 currentHands(blackJack);
                 System.out.println("Dealer BLACKJACK! Sorry, better luck next time!");
-                blackJack.playerLosePot();
-                resetAceValue(blackJack);
-                resetHandAndValues(blackJack);
-                blackJack.clearDiscardAndDeck();
+                playerLosesPot(blackJack);
                 break;
             }
             Integer decision = console.getIntegerInput("What would you like to do?\n1 - Hit\t\t2 - Hold\t\t3 - Double Down\t\t4 - Split");
@@ -91,19 +78,13 @@ public class BlackJackEngine {
                     if(blackJack.playerBust()) {
                         currentHands(blackJack);
                         System.out.println("BUST! Sorry, better luck next time!");
-                        blackJack.playerLosePot();
-                        resetAceValue(blackJack);
-                        resetHandAndValues(blackJack);
-                        blackJack.clearDiscardAndDeck();
+                        playerLosesPot(blackJack);
                         round = false;
                     }
                     if(blackJack.dealerBust()) {
                         currentHands(blackJack);
                         System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", (blackJack.sizeOfPot*2)));
-                        blackJack.playerWinPot();
-                        resetAceValue(blackJack);
-                        resetHandAndValues(blackJack);
-                        blackJack.clearDiscardAndDeck();
+                        playerWinsPot(blackJack);
                         round = false;
                     }
                     break;
@@ -117,31 +98,16 @@ public class BlackJackEngine {
                     }
                     if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
                         if(blackJack.checkWinner().equals("Player")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
-                            blackJack.playerWinPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandWin(blackJack);
+                            playerWinsPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Dealer")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println("Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandLose(blackJack);
+                            playerLosesPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Tie")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
-                            blackJack.tiedPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandTie(blackJack);
+                            playerTiesPot(blackJack);
                             round = false;
                         }
                     }
@@ -154,10 +120,7 @@ public class BlackJackEngine {
                         if (blackJack.playerBust()) {
                             currentHands(blackJack);
                             System.out.println("BUST! Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerLosesPot(blackJack);
                             round = false;
                         }
                         blackJack.hold();
@@ -170,31 +133,16 @@ public class BlackJackEngine {
                     }
                     if(blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal >= 16) {
                         if(blackJack.checkWinner().equals("Player")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
-                            blackJack.playerWinPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandWin(blackJack);
+                            playerWinsPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Dealer")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println("Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandLose(blackJack);
+                            playerLosesPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Tie")) {
-                            System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
-                            currentHands(blackJack);
-                            System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
-                            blackJack.tiedPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            finalHandTie(blackJack);
+                            playerTiesPot(blackJack);
                             round = false;
                         }
                     }
@@ -219,23 +167,13 @@ public class BlackJackEngine {
 
         boolean round = true;
         while(round) {
-            playerTurnHands(blackJack);
-            currentChipCount(player);
-            currentTurnIndicator(blackJack);
+            roundStartOperations(blackJack, player);
             if(blackJack.playerHaveBlackJack()) {
-                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
-                blackJack.playerWinByBlackJack();
-                resetAceValue(blackJack);
-                resetHandAndValues(blackJack);
-                blackJack.clearDiscardAndDeck();
+                playerWinsByBlackJack(blackJack);
                 break;
             }
             if(blackJack.playerSplitHandHaveBlackJack()) {
-                System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
-                blackJack.playerWinByBlackJack();
-                resetAceValue(blackJack);
-                resetHandAndValues(blackJack);
-                blackJack.clearDiscardAndDeck();
+                playerWinsByBlackJack(blackJack);
                 break;
             }
             Integer decision = console.getIntegerInput("What would you like to do?\n1 - Hit\t\t2 - Hold\t\t3 - Double Down");
@@ -258,36 +196,24 @@ public class BlackJackEngine {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot * 2)));
-                            blackJack.playerWinPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerWinsPot(blackJack);
                         } else if (blackJack.checkWinner().equals("Dealer") && blackJack.checkSplitWinner().equals("Dealer")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println("Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerLosesPot(blackJack);
                         } else if (blackJack.checkWinner().equals("Tie") || blackJack.checkSplitWinner().equals("Tie")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
-                            blackJack.tiedPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerTiesPot(blackJack);
                         }
                         round = false;
                     }
                     if(blackJack.dealerBust()) {
                         currentHands(blackJack);
                         System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", (blackJack.sizeOfPot*2)));
-                        blackJack.playerWinPot();
-                        resetAceValue(blackJack);
-                        resetHandAndValues(blackJack);
-                        blackJack.clearDiscardAndDeck();
+                        playerWinsPot(blackJack);
                         round = false;
                     }
                     break;
@@ -311,28 +237,19 @@ public class BlackJackEngine {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
-                            blackJack.playerWinPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerWinsPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Dealer") && blackJack.checkSplitWinner().equals("Dealer")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println("Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerLosesPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Tie") || blackJack.checkSplitWinner().equals("Tie")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
-                            blackJack.tiedPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerTiesPot(blackJack);
                             round = false;
                         }
                     }
@@ -352,19 +269,13 @@ public class BlackJackEngine {
                     if(blackJack.playerSplitHandBust()) {
                         currentHands(blackJack);
                         System.out.println("BUST! Sorry, better luck next time!");
-                        blackJack.playerLosePot();
-                        resetAceValue(blackJack);
-                        resetHandAndValues(blackJack);
-                        blackJack.clearDiscardAndDeck();
+                        playerLosesPot(blackJack);
                         round = false;
                     }
                     if(blackJack.dealerBust()) {
                         currentHands(blackJack);
                         System.out.println(String.format("Congrats! Dealer BUST! You won %s chips.", (blackJack.sizeOfPot*2)));
-                        blackJack.playerWinPot();
-                        resetAceValue(blackJack);
-                        resetHandAndValues(blackJack);
-                        blackJack.clearDiscardAndDeck();
+                        playerWinsPot(blackJack);
                         round = false;
                     }
                     blackJack.hold();
@@ -373,28 +284,19 @@ public class BlackJackEngine {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
-                            blackJack.playerWinPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerWinsPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Dealer")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println("Sorry, better luck next time!");
-                            blackJack.playerLosePot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerLosesPot(blackJack);
                             round = false;
                         } else if (blackJack.checkWinner().equals("Tie")) {
                             System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
                             currentHands(blackJack);
                             System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
-                            blackJack.tiedPot();
-                            resetAceValue(blackJack);
-                            resetHandAndValues(blackJack);
-                            blackJack.clearDiscardAndDeck();
+                            playerTiesPot(blackJack);
                             round = false;
                         }
                     }
@@ -403,6 +305,53 @@ public class BlackJackEngine {
                     break;
             }
         }
+    }
+
+    private void playerWinsByBlackJack(BlackJack blackJack) {
+        System.out.println(String.format("BLACKJACK! You won %s chips.", (blackJack.sizeOfPot*3)));
+        blackJack.playerWinByBlackJack();
+        resetAceValue(blackJack);
+        resetHandAndValues(blackJack);
+        blackJack.clearDiscardAndDeck();
+    }
+
+    private void playerLosesPot(BlackJack blackJack) {
+        blackJack.playerLosePot();
+        resetAceValue(blackJack);
+        resetHandAndValues(blackJack);
+        blackJack.clearDiscardAndDeck();
+    }
+
+    private void playerWinsPot(BlackJack blackJack) {
+        blackJack.playerWinPot();
+        resetAceValue(blackJack);
+        resetHandAndValues(blackJack);
+        blackJack.clearDiscardAndDeck();
+    }
+
+    private void playerTiesPot(BlackJack blackJack) {
+        blackJack.tiedPot();
+        resetAceValue(blackJack);
+        resetHandAndValues(blackJack);
+        blackJack.clearDiscardAndDeck();
+    }
+
+    private void finalHandTie(BlackJack blackJack) {
+        System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
+        currentHands(blackJack);
+        System.out.println(String.format("TIED! You won %s chips.", blackJack.sizeOfPot));
+    }
+
+    private void finalHandLose(BlackJack blackJack) {
+        System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
+        currentHands(blackJack);
+        System.out.println("Sorry, better luck next time!");
+    }
+
+    private void finalHandWin(BlackJack blackJack) {
+        System.out.println("\n\t\t\t\t\t**********FINAL HANDS**********\t\t\t\t\t\n");
+        currentHands(blackJack);
+        System.out.println(String.format("Congrats! You won %s chips.", (blackJack.sizeOfPot*2)));
     }
 
     public void playerTurnHands(BlackJack blackJack) {
@@ -504,6 +453,13 @@ public class BlackJackEngine {
         }else if(blackJack.currentHand == blackJack.dealerHand) {
             System.out.println("Turn to act : *** Dealer ***");
         }
+    }
+
+    public void roundStartOperations(BlackJack blackJack, Player player) {
+        playerTurnHands(blackJack);
+        currentChipCount(player);
+        currentPot(blackJack);
+        currentTurnIndicator(blackJack);
     }
 }
 
