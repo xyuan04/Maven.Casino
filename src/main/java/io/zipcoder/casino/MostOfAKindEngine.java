@@ -16,9 +16,10 @@ public class MostOfAKindEngine {
     public void moak() {
         MostOfAKindGame moak = new MostOfAKindGame(player);
         Console console = new Console(System.in, System.out);
-
 //        System.out.println(String.format("Hello %s", player.getPlayerName()));
 //        System.out.println("Welcome To Most Of A Kind!");
+        System.out.println(String.format("Hello %s", player.getPlayerName()));
+        System.out.println("Welcome To Most Of A Kind!");
 
         startMoakGame(moak, player, console);
     }

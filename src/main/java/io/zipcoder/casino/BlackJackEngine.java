@@ -298,7 +298,6 @@ public class BlackJackEngine {
                     }
                     if(blackJack.currentHand == blackJack.playerSplitHand) {
                         blackJack.hold();
-                        break;
                     }
                     blackJack.hold();
                     while (blackJack.currentHand == blackJack.dealerHand && blackJack.dealerTotal < 16) {
