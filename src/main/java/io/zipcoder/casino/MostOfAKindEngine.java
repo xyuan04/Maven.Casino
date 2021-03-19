@@ -41,9 +41,6 @@ public class MostOfAKindEngine {
     }
 
     //PLACEHOLDER
-    private void casinoLobby(MostOfAKindGame moak, Player player, Console console) {
-        casino.casinoLobbyScreen(player);
-    }
 
     private void welcomeInvalidScreen(MostOfAKindGame moak, Player player, Console console) {
         mScreens.welcomeInvalidMoakScreen();
