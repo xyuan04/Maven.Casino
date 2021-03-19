@@ -18,8 +18,8 @@ public class CrapsEngine {
         Craps craps = new Craps(player);
         Console console = new Console(System.in, System.out);
 
-        System.out.println(String.format("Hello %s", player.getPlayerName()));
-        System.out.println("Welcome To Craps!");
+//        System.out.println(String.format("Hello %s", player.getPlayerName()));
+//        System.out.println("Welcome To Craps!");
 
         startCrapsGame(craps, player, console);
     }

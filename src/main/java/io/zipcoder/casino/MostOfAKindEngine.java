@@ -17,15 +17,16 @@ public class MostOfAKindEngine {
         MostOfAKindGame moak = new MostOfAKindGame(player);
         Console console = new Console(System.in, System.out);
 
-        System.out.println(String.format("Hello %s", player.getPlayerName()));
-        System.out.println("Welcome To Most Of A Kind!");
+//        System.out.println(String.format("Hello %s", player.getPlayerName()));
+//        System.out.println("Welcome To Most Of A Kind!");
 
         startMoakGame(moak, player, console);
     }
 
     private void startMoakGame(MostOfAKindGame moak, Player player, Console console) {
         mScreens.welcomeMoakScreen();
-        player.setChipBalance(100);
+        System.out.println(player.getPlayerName());
+        System.out.println(player.getChipBalance());
         while (true) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {

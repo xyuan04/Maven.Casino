@@ -166,7 +166,7 @@ public class Casino {
             if (input == 1) {
                 tellerWindow(currentPlayer);
             } else if (input == 2) {
-                tellerWindow(currentPlayer);
+                casinoLobbyScreen(currentPlayer);
             } else {
                 System.out.println("Invalid Entry");
             }
