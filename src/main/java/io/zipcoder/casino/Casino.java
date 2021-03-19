@@ -23,13 +23,13 @@ public class Casino {
 
     public static void main(String[] args) {
         Casino casino = new Casino();
+        PlayerWarehouse.initializePlayers();
         while (true) {
             casino.run();
         }
     }
 
     public void run() {
-        PlayerWarehouse.initializePlayers();
         welcome();
 //        casinoScreens.welcomeScreen();
 //        while (true) {
@@ -117,7 +117,8 @@ public class Casino {
             if (input == 1) {
                 tellerWindow(currentPlayer);
             } else if (input == 2) {
-                //GoFishEngine goFish = new GoFishEngine(currentPlayer);
+                GoFish goFish = new GoFish(currentPlayer);
+                goFish.playGame();
             } else if (input == 3) {
                 BlackJackEngine blackJack = new BlackJackEngine(currentPlayer);
                 blackJack.blackJack();
@@ -125,7 +126,8 @@ public class Casino {
                 CrapsEngine crapsEngine = new CrapsEngine(currentPlayer);
                 crapsEngine.craps();
             } else if (input == 5) {
-                //MostOfAKindEngine moak = new MostOfAKindEngine(currentPlayer);
+                MostOfAKindEngine moak = new MostOfAKindEngine(currentPlayer);
+                moak.moak();
             } else if (input == 00) {
                 run();
             } else {
@@ -164,7 +166,7 @@ public class Casino {
             if (input == 1) {
                 tellerWindow(currentPlayer);
             } else if (input == 2) {
-                System.exit(0);
+                tellerWindow(currentPlayer);
             } else {
                 System.out.println("Invalid Entry");
             }

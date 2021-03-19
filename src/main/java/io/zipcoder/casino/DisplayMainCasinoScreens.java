@@ -55,7 +55,7 @@ public class DisplayMainCasinoScreens extends Displays{
         println("     2: *GoFish Room          ");
         println("     3: BlackJack Room        ");
         println("     4: Craps Room            ");
-        println("     5: Poker Dice Room       ");
+        println("     5: MOAK Room             ");
         println("     00: Leave                ");
         println("                              ");
         println(" *Don't need chips to play    ");
