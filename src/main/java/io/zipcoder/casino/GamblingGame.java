@@ -2,6 +2,6 @@ package io.zipcoder.casino;
 
 public interface GamblingGame {
 
-    void addToPot();
+    void addToPot(int amount);
     int getPot();
 }

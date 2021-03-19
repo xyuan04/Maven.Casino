@@ -3,7 +3,7 @@ package io.zipcoder.casino;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlackJack extends CardGame {
+public class BlackJack extends CardGame implements GamblingGame{
     Player currentPlayer;
     public List<Card> playerHand = new ArrayList<>();
     public List<Card> dealerHand = new ArrayList<>();
@@ -154,4 +154,9 @@ public class BlackJack extends CardGame {
         return dealerTotal > 21;
     }
 
+
+    @Override
+    public int getPot() {
+        return sizeOfPot;
+    }
 }

@@ -1,6 +1,5 @@
 package io.zipcoder.casino;
 
-import com.sun.tools.javac.util.Assert;
 import io.zipcoder.casino.utilities.Console;
 
 public class CrapsEngine {

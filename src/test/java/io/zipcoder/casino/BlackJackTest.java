@@ -1,5 +1,6 @@
 package io.zipcoder.casino;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -659,6 +660,19 @@ public class BlackJackTest {
         //When:
         String expected = "Tie";
         String actual = bj.checkWinner();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkGetPot() {
+        //Given:
+        bj.sizeOfPot = 500;
+
+        //When:
+        int expected = 500;
+        int actual = bj.getPot();
 
         //Then:
         assertEquals(expected, actual);
