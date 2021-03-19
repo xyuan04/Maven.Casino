@@ -80,7 +80,8 @@ public class Casino {
                 Player currentPlayer = PlayerWarehouse.currentPlayers.get(input);
                 casinoLobbyScreen(currentPlayer);
             } else if (!PlayerWarehouse.currentPlayers.containsKey(input)) {
-                createNewAccount();
+                System.out.println("Invalid ID");
+                userLoginScreen();
             }
         }
     }
@@ -179,10 +180,10 @@ public class Casino {
             Integer input = console.getIntegerInput("");
             if (input <= currentPlayer.getWallet()) {
                 int chips = exchange.moneyToChips(input);
-                currentPlayer.setChipBalance(chips);
+                currentPlayer.getMoreChips(chips);
                 chipBalanceScreen(currentPlayer.getChipBalance(), currentPlayer);
             } else {
-                System.out.println("Invalid Entry");
+                System.out.println("Not enough cash");
             }
         }
     }

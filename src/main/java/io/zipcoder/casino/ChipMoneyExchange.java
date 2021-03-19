@@ -1,6 +1,7 @@
 package io.zipcoder.casino;
 
 public class ChipMoneyExchange {
+    Player player;
 
 
     public int moneyToChips(int cash) {
