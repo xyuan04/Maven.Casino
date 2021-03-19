@@ -69,7 +69,4 @@ public class Player implements GamblingPlayer{
         chipBalance += chipsWon;
     }
 
-    public void bet(int amount) {
-        chipBalance -= amount;
-    }
 }

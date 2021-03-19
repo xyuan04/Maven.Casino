@@ -134,6 +134,22 @@ public class PlayerTest {
     }
 
     @Test
+    public void wageMoneyNegativeTest() {
+        //Given:
+        Player gamblingAddict = new Player(name, stash);
+        gamblingAddict.setChipBalance(2500);
+        int betAmount = -500;
+
+        //When:
+        int expected = 2500;
+        gamblingAddict.wageMoney(betAmount);
+        int actual = gamblingAddict.getChipBalance();
+
+        //Then:
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
     public void cashOutTest() {
         //Given:
         Player gamblingAddict = new Player(name, stash);
@@ -210,19 +226,4 @@ public class PlayerTest {
         Assert.assertEquals(expected, actual);
     }
 
-    @Test
-    public void betTest() {
-        //Given:
-        Player gamblingAddict = new Player(name, stash);
-        gamblingAddict.setChipBalance(5000);
-        int betAmount = 250;
-
-        //When:
-        int expected = 4750;
-        gamblingAddict.bet(betAmount);
-        int actual = gamblingAddict.getChipBalance();
-
-        //Then:
-        Assert.assertEquals(expected, actual);
-    }
 }
