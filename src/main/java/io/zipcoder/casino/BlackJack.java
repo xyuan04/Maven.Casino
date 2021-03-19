@@ -19,7 +19,7 @@ public class BlackJack extends CardGame {
     }
 
     public void addToPot(int chipsAdded) {
-        currentPlayer.bet(chipsAdded);
+        currentPlayer.wageMoney(chipsAdded);
         sizeOfPot += chipsAdded;
     }
 

@@ -5,9 +5,8 @@ import io.zipcoder.casino.utilities.Console;
 
 public class CrapsEngine {
     CrapsScreens cScreens = new CrapsScreens();
-//    DisplayMainCasinoScreens casinoScreens = new DisplayMainCasinoScreens();
     Player player;
-    Casino casino = new Casino();
+    //Casino casino = new Casino();
 
 
     public CrapsEngine(Player player) {
@@ -17,10 +16,6 @@ public class CrapsEngine {
     public void craps() {
         Craps craps = new Craps(player);
         Console console = new Console(System.in, System.out);
-
-//        System.out.println(String.format("Hello %s", player.getPlayerName()));
-//        System.out.println("Welcome To Craps!");
-
         startCrapsGame(craps, player, console);
     }
 
@@ -29,12 +24,14 @@ public class CrapsEngine {
         cScreens.crapsWelcomeScreen();
         System.out.println(player.getPlayerName());
         System.out.println(player.getChipBalance());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input.equals(1)) {
                 passOrNotPassRoundOneScreen(craps.getGameRound(), craps, player, console);
+                getOut = false;
             } else if (input.equals(2)) {
-                casinoLobby(player);
+                getOut = false;
             } else {
                 crapsInvalidWelcomeScreen(craps, player, console);
             }
@@ -46,22 +43,25 @@ public class CrapsEngine {
     }
 
 
-    public void casinoLobby(Player player) {
-        casino.casinoLobbyScreen(player);
-    }
+//    public void casinoLobby(Player player) {
+//        casino.casinoLobbyScreen(player);
+//    }
 
     public void passOrNotPassRoundOneScreen(int gameRound, Craps craps, Player player, Console console) {
         craps.setGameRound(1);
         craps.clearPot();
         cScreens.passOrNotPassRoundOneScreen(craps.getGameRound());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input.equals(1)) {
                 craps.setBetStatus("Pass");
                 betAmountRoundOneScreen(craps, player, console);
+                getOut = false;
             } else if (input.equals(2)) {
                 craps.setBetStatus("Not Pass");
                 betAmountRoundOneScreen(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Please enter 1 or 2");
             }
@@ -70,25 +70,30 @@ public class CrapsEngine {
 
     public void betAmountRoundOneScreen(Craps craps, Player player, Console console) {
         cScreens.betAmountRoundOneScreen(craps.getGameRound());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input <= player.getChipBalance() && input >= 0) {
                 craps.addToPot(input);
                 rollTheDice(craps, player, console);
+                getOut = false;
             } else {
                 getMoreChips(craps, player, console);
+                getOut = false;
             }
         }
     }
 
     public void getMoreChips(Craps craps, Player player, Console console) {
         cScreens.getMoreChips();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 0) {
-                casinoLobby(player);
+                getOut = false;
             } else if (input == 1) {
                 betAmountRoundOneScreen(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -97,7 +102,8 @@ public class CrapsEngine {
 
     public void rollTheDice(Craps craps, Player player, Console console) {
         cScreens.rollTheDice();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 craps.sumOfDice();
@@ -120,6 +126,7 @@ public class CrapsEngine {
                         rollAgainScreen(craps, player, console);
                     }
                 }
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -128,13 +135,16 @@ public class CrapsEngine {
 
     public void loseRollScreen(Craps craps, Player player, Console console) {
         cScreens.loseRollScreen(craps.getGameRound(), craps.getPot(), craps.getCurrentSum(), craps.getBetStatus());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input.equals(1)) {
                 craps.setGameRound(1);
                 passOrNotPassRoundOneScreen(craps.getGameRound(), craps, player, console);
+                getOut = false;
             } else if (input.equals(2)) {
                 goodLuckScreen(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -143,10 +153,11 @@ public class CrapsEngine {
 
     public void goodLuckScreen(Craps craps, Player player, Console console) {
         cScreens.leaveCrapsScreen();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 0) {
-                casinoLobby(player);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -156,13 +167,16 @@ public class CrapsEngine {
     public void winRollScreen(Craps craps, Player player, Console console) {
         cScreens.winRollScreen(craps.getGameRound(), craps.getPot(), craps.getCurrentSum(), craps.getBetStatus());
         craps.playerWinsPot(craps.getPot());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input.equals(1)) {
                 craps.setGameRound(1);
                 passOrNotPassRoundOneScreen(craps.getGameRound(), craps, player, console);
+                getOut = false;
             } else if (input.equals(2)) {
                 goodLuckScreen(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -171,14 +185,17 @@ public class CrapsEngine {
 
     public void rollAgainScreen(Craps craps, Player player, Console console) {
         cScreens.passOrNotPassRoundTwoScreen(craps.getGameRound(), craps.getPot(), craps.getCurrentSum(), craps.getBetStatus(), craps.getPointer());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input.equals(1)) {
                 craps.setBetStatus("Pass");
                 rollAgainBetScreen(craps, player, console);
+                getOut = false;
             } else if (input.equals(2)) {
                 craps.setBetStatus("Not Pass");
                 rollAgainBetScreen(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Please enter 1 or 2");
             }
@@ -187,11 +204,13 @@ public class CrapsEngine {
 
     public void rollAgainBetScreen(Craps craps, Player player, Console console) {
         cScreens.rollAgainBetScreen(craps.getGameRound(), craps.getPot(), craps.getCurrentSum(), craps.getBetStatus(), craps.getPointer());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input <= player.getChipBalance() && input >=0) {
                 craps.addToPot(input);
                 rollTheDiceOnward(craps, player, console);
+                getOut = false;
             } else {
                 System.out.println("Insufficient Chips");
             }
@@ -201,7 +220,8 @@ public class CrapsEngine {
     private void rollTheDiceOnward(Craps craps, Player player, Console console) {
         craps.setGameRound(2);
         cScreens.rollAgainOnward(craps.getGameRound(),craps.getBetStatus(), craps.getPot(), craps.getPointer());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 craps.sumOfDice();
@@ -222,6 +242,7 @@ public class CrapsEngine {
                         rollAgainBetScreen(craps, player, console);
                     }
                 }
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }

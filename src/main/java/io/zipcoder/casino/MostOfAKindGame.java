@@ -174,7 +174,7 @@ public class MostOfAKindGame extends DiceGame {
     }
 
     public void anteUp() {
-        currentPlayer.bet(5);
+        currentPlayer.wageMoney(5);
         pot += 5;
     }
 

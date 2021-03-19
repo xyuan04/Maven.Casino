@@ -2,6 +2,7 @@ package io.zipcoder.casino;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class GoFish extends CardGame {
@@ -44,16 +45,13 @@ public class GoFish extends CardGame {
             System.out.println("We already have some books! Crazy!");}
            stillPlaying=true;
             //The actual GAME starts here.
-            while(stillPlaying==true) {
+            while(stillPlaying) {
                 //player takes their turn
-                if(stillPlaying==true){
-                    System.out.println("You have "+playerScore+" books.");
-                    turnStructure();}
+                if(stillPlaying){ turnStructure();}
                 //end step for player, checks for winner
                 if(dealer.size()==0||oswald.size()==0||books.size()==12){
                     stillPlaying=false;}
-                if(stillPlaying==true){turnStructureAI();
-                    System.out.println("The dealer has "+dealerScore+" books.");}
+                if(stillPlaying){turnStructureAI();}
                 //end step for dealer, checks for winner
                 if(dealer.size()==0||oswald.size()==0||books.size()==12){
                     stillPlaying=false;}
@@ -66,6 +64,8 @@ public class GoFish extends CardGame {
     }
 
     public String checkWinner() {
+        if(oswald.size()==0){System.out.println("The game ends! Your out of cards!");}
+        if(dealer.size()==0){System.out.println("The game ends! The dealer is out of cards!");}
         if(dealerScore>playerScore){return "Dealer wins! Sorry....";}
         else return "You win! Congrats!";
     }
@@ -100,15 +100,18 @@ public class GoFish extends CardGame {
         Boolean legalchoice=false;
         Boolean takeAnotherTurn=true;
         String input="";
-        while (takeAnotherTurn) {
+        while (takeAnotherTurn&&oswald.size()>0) {
             System.out.print(seeHand(oswald));
-            if(books.size()>0){System.out.println(showBooks());}
+            if(books.size()>0){System.out.println(showBooks());
+                System.out.println("You have "+playerScore+" books.");
+                System.out.println("The dealer has "+dealerScore+" books.");}
             System.out.println("Alright, Go fish!");
             takeAnotherTurn=false;
             legalchoice=false;
             input="";
             while (!legalchoice) {
                 input = Displays.getStringInput();
+                input=input.toUpperCase();
                 legalchoice = true;
                 if (!gotAnyKings(oswald, input)) {
                     System.out.println("You can only pick card names you have in hand");
@@ -127,13 +130,13 @@ public class GoFish extends CardGame {
                 System.out.println("Whoops! No bites, better draw!");
                 dealCards(oswald);
                 System.out.println("You drew: "+showCard(oswald, oswald.size()-1));
-                if(completeSet(oswald, oswald.get(oswald.size()-1).getCardName())){
-                    playerScore++;
-                    System.out.println("Congrats, you closed a book!");
-                }
                 if(drawAnyKings(oswald,input)){
                     takeAnotherTurn=true;
                     System.out.println("You caught a fish! You get another turn!");
+                }
+                if(completeSet(oswald, oswald.get(oswald.size()-1).getCardName())){
+                    playerScore++;
+                    System.out.println("Congrats, you closed a book!");
                 }
             }
         }
@@ -143,7 +146,7 @@ public class GoFish extends CardGame {
     public void turnStructureAI(){
         Boolean takeAnotherTurn=true;
         String input="";
-        while (takeAnotherTurn) {
+        while (takeAnotherTurn&&dealer.size()>0) {
             System.out.println("Okay, now it's the dealer's turn!");
             takeAnotherTurn=false;
             Random r=new Random();
@@ -162,13 +165,13 @@ public class GoFish extends CardGame {
             } else {
                 dealCards(dealer);
                 System.out.println("You didn't! Dealer draws a "+showCard(dealer, dealer.size()-1)+"!");
-                if(completeSet(dealer, dealer.get(dealer.size()-1).getCardName())){
-                    dealerScore++;
-                    System.out.println("Dealer closes a book!");
-                }
                 if(drawAnyKings(dealer,input)){
                     takeAnotherTurn=true;
                     System.out.println("Dealer drew a fish! They get another turn!");
+                }
+                if(completeSet(dealer, dealer.get(dealer.size()-1).getCardName())){
+                    dealerScore++;
+                    System.out.println("Dealer closes a book!");
                 }
             }
         }
@@ -195,7 +198,7 @@ public class GoFish extends CardGame {
 
     public Boolean gotAnyKings(List<Card> hand, String name) {
         for(Card i:hand){
-            if(name.equalsIgnoreCase(i.getCardName())){
+            if(name.equals(i.getCardName())){
                 return true;
             }
         }
@@ -204,7 +207,7 @@ public class GoFish extends CardGame {
 
     public void takeCards(List<Card> taker, List<Card> taken, String name) {
         for(int i=0;i<taken.size();i++){
-            if(name.equalsIgnoreCase(taken.get(i).getCardName())){
+            if(name.equals(taken.get(i).getCardName())){
                 taker.add(taken.get(i));
                 taken.remove(i);
                 i=0;
@@ -213,7 +216,7 @@ public class GoFish extends CardGame {
     }
 
     public Boolean drawAnyKings(List<Card> player, String name) {
-        if(name.equalsIgnoreCase(player.get(player.size()-1).getCardName())){
+        if(name.equals(player.get(player.size()-1).getCardName())){
             return true;
         }
         return false;

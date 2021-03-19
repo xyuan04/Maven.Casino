@@ -13,11 +13,7 @@ public class Casino {
 
     DisplayMainCasinoScreens casinoScreens = new DisplayMainCasinoScreens();
     Console console = new Console(System.in, System.out);
-//    GoFish goFish = new GoFish();
-//    BlackJackEngine blackJack = new BlackJackEngine();
-//    CrapsEngine crapsEngine = new CrapsEngine(Player player);
-//    MostOfAKindEngine moak = new MostOfAKindEngine();
-    ChipMoneyExchange exchange = new ChipMoneyExchange();
+
 
 
 
@@ -31,27 +27,19 @@ public class Casino {
 
     public void run() {
         welcome();
-//        casinoScreens.welcomeScreen();
-//        while (true) {
-//            Integer input = console.getIntegerInput("");
-//            if (input == 00) {
-//                userLoginScreen();
-//            } else if (input == 99) {
-//                goodbyeCasinoScreen();
-//            } else {
-//                invalidEntryWelcomeScreen();
-//            }
-//        }
     }
 
     public void welcome() {
         casinoScreens.welcomeScreen();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 00) {
                 userLoginScreen();
+                getOut = false;
             } else if (input == 99) {
                 goodbyeCasinoScreen();
+                getOut = false;
             } else {
                 invalidEntryWelcomeScreen();
             }
@@ -60,12 +48,15 @@ public class Casino {
 
     public void userLoginScreen() {
         casinoScreens.loginOrCreateNew();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 enterUserID();
+                getOut = false;
             } else if (input == 2) {
                 createNewAccount();
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -74,14 +65,17 @@ public class Casino {
 
     public void enterUserID() {
         casinoScreens.enterUserID();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (PlayerWarehouse.currentPlayers.containsKey(input)) {
                 Player currentPlayer = PlayerWarehouse.currentPlayers.get(input);
                 casinoLobbyScreen(currentPlayer);
+                getOut = false;
             } else if (!PlayerWarehouse.currentPlayers.containsKey(input)) {
                 System.out.println("Invalid ID");
                 userLoginScreen();
+                getOut = false;
             }
         }
     }
@@ -92,10 +86,12 @@ public class Casino {
         Player newPlayer = PlayerFactory.createPlayer(input, wallet);
         PlayerWarehouse.addPlayer(newPlayer.getPlayerID(), newPlayer);
         casinoScreens.accountMade(newPlayer.getPlayerID());
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer newInput = console.getIntegerInput("");
             if (newInput == 00) {
                 casinoLobbyScreen(newPlayer);
+                getOut = false;
             } else {
                 System.out.println("Invalid entry");
             }
@@ -112,8 +108,9 @@ public class Casino {
     }
 
     public void casinoLobbyScreen(Player currentPlayer) {
-        casinoScreens.casinoLobbyScreen();
-        while (true) {
+        boolean playing = true;
+        while (playing) {
+            casinoScreens.casinoLobbyScreen();
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 tellerWindow(currentPlayer);
@@ -130,7 +127,7 @@ public class Casino {
                 MostOfAKindEngine moak = new MostOfAKindEngine(currentPlayer);
                 moak.moak();
             } else if (input == 00) {
-                run();
+                playing = false;
             } else {
                 casinoLobbyInvalidScreen();
             }
@@ -143,13 +140,16 @@ public class Casino {
 
     public void tellerWindow(Player currentPlayer) {
         casinoScreens.tellerMainScreen();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 tellerMoneyToChipsScreen(currentPlayer);
+                getOut = false;
             } else if (input == 2) {
                 cashOutChips(currentPlayer.getChipBalance(), currentPlayer);
                 currentPlayer.setChipBalance(0);
+                getOut = false;
             } else {
                 tellerInvalidMainScreen();
             }
@@ -162,12 +162,15 @@ public class Casino {
 
     public void cashOutChips(int chipsCashOut, Player currentPlayer) {
         casinoScreens.tellerChipsToMoneyScreen(chipsCashOut);
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 1) {
                 tellerWindow(currentPlayer);
+                getOut = false;
             } else if (input == 2) {
                 casinoLobbyScreen(currentPlayer);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
@@ -175,13 +178,16 @@ public class Casino {
     }
 
     public void tellerMoneyToChipsScreen(Player currentPlayer) {
+        ChipMoneyExchange exchange = new ChipMoneyExchange();
         casinoScreens.tellerMoneyToChipsScreen();
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input <= currentPlayer.getWallet()) {
                 int chips = exchange.moneyToChips(input);
                 currentPlayer.getMoreChips(chips);
                 chipBalanceScreen(currentPlayer.getChipBalance(), currentPlayer);
+                getOut = false;
             } else {
                 System.out.println("Not enough cash");
             }
@@ -190,10 +196,12 @@ public class Casino {
 
     public void chipBalanceScreen(int chips, Player currentPlayer) {
         casinoScreens.howManyChipsScreen(chips);
-        while (true) {
+        boolean getOut = true;
+        while (getOut) {
             Integer input = console.getIntegerInput("");
             if (input == 00) {
                 casinoLobbyScreen(currentPlayer);
+                getOut = false;
             } else {
                 System.out.println("Invalid Entry");
             }
