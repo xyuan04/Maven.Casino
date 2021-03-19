@@ -179,7 +179,7 @@ public class Casino {
 
     public void tellerMoneyToChipsScreen(Player currentPlayer) {
         ChipMoneyExchange exchange = new ChipMoneyExchange();
-        casinoScreens.tellerMoneyToChipsScreen();
+        casinoScreens.tellerMoneyToChipsScreen(currentPlayer.getChipBalance(), currentPlayer.getWallet());
         boolean getOut = true;
         while (getOut) {
             Integer input = console.getIntegerInput("");

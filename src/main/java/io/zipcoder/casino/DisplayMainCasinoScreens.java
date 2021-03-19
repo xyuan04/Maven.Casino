@@ -99,7 +99,10 @@ public class DisplayMainCasinoScreens extends Displays{
         println("                              ");
     }
 
-    public void tellerMoneyToChipsScreen() {
+    public void tellerMoneyToChipsScreen(int currentChips, int currentWallet) {
+        println("                              ");
+        println("  Your wallet: %s             ", currentWallet);
+        println("  Your chips: %s              ", currentChips);
         println("                              ");
         println("   How much money would       ");
         println("   you like to exchange?      ");
