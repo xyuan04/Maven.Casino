@@ -48,7 +48,7 @@ public class BlackJackTest {
 
         //When:
         bj.addToPot(500);
-        bj.playerWinPot();
+        bj.passPot(2);
         int expected = 3500;
         int actual = gerg.getChipBalance();
 
@@ -63,7 +63,7 @@ public class BlackJackTest {
 
         //When:
         bj.addToPot(500);
-        bj.playerWinPot();
+        bj.passPot(2);
         int expected = 0;
         int actual = bj.sizeOfPot;
 
@@ -78,7 +78,7 @@ public class BlackJackTest {
 
         //When:
         bj.addToPot(500);
-        bj.playerWinByBlackJack();
+        bj.passPot(3);
         int expected = 4000;
         int actual = gerg.getChipBalance();
 
@@ -352,7 +352,7 @@ public class BlackJackTest {
         //When:
         bj.playerHandSplit();
         bj.hitMe();
-        bj.splitHold();
+        bj.hold();
         bj.hitMe();
         bj.hitMe();
         bj.hitMe();
@@ -413,7 +413,7 @@ public class BlackJackTest {
 
         //When:
         String expected = "Player";
-        String actual = bj.checkSplitWinner();
+        String actual = bj.checkWinner();
 
         //Then:
         assertEquals(expected, actual);
@@ -427,7 +427,7 @@ public class BlackJackTest {
 
         //When:
         String expected = "Dealer";
-        String actual = bj.checkSplitWinner();
+        String actual = bj.checkWinner();
 
         //Then:
         assertEquals(expected, actual);
@@ -441,7 +441,7 @@ public class BlackJackTest {
 
         //When:
         String expected = "Tie";
-        String actual = bj.checkSplitWinner();
+        String actual = bj.checkWinner();
 
         //Then:
         assertEquals(expected, actual);
@@ -459,8 +459,8 @@ public class BlackJackTest {
         bj.dealerTotal = 20;
 
         //When:
-        boolean expected = true;
-        boolean actual = bj.playerHaveBlackJack();
+        String expected = "Player";
+        String actual = bj.blackJackCheck();
 
         //Then:
         assertEquals(expected, actual);
@@ -474,12 +474,13 @@ public class BlackJackTest {
         Card EightOfSpades=new Card("8", "Spades", 8);
         bj.playerHand.add(EightOfSpades);
         bj.playerHand.add(TenOfSpades);
+        bj.playerHand.add(AceOfSpades);
         bj.playerTotal = 21;
         bj.dealerTotal = 20;
 
         //When:
-        boolean expected = false;
-        boolean actual = bj.playerHaveBlackJack();
+        String expected = "None";
+        String actual = bj.blackJackCheck();
 
         //Then:
         assertEquals(expected, actual);
@@ -497,8 +498,8 @@ public class BlackJackTest {
         bj.dealerTotal = 18;
 
         //When:
-        boolean expected = true;
-        boolean actual = bj.playerSplitHandHaveBlackJack();
+        String expected = "Player";
+        String actual = bj.blackJackCheck();
 
         //Then:
         assertEquals(expected, actual);
@@ -516,8 +517,8 @@ public class BlackJackTest {
         bj.dealerTotal = 18;
 
         //When:
-        boolean expected = false;
-        boolean actual = bj.playerSplitHandHaveBlackJack();
+        String expected = "None";
+        String actual = bj.blackJackCheck();
 
         //Then:
         assertEquals(expected, actual);
@@ -646,7 +647,7 @@ public class BlackJackTest {
 
         //When:
         bj.addToPot(500);
-        bj.tiedPot();
+        bj.passPot(1);
         int expected = 3000;
         int actual = gerg.getChipBalance();
 
@@ -676,6 +677,21 @@ public class BlackJackTest {
         //When:
         int expected = 500;
         int actual = bj.getPot();
+
+        //Then:
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void checkSplitWinnerDealerTest() {
+        //Given:
+        bj.playerTotal = 26;
+        bj.playerSplitTotal = 19;
+        bj.dealerTotal = 20;
+
+        //When:
+        String expected = "Dealer";
+        String actual = bj.checkWinner();
 
         //Then:
         assertEquals(expected, actual);

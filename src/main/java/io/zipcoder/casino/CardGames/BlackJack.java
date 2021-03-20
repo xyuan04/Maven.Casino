@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlackJack extends CardGame implements GamblingGame {
-    Player currentPlayer;
+    public Player currentPlayer;
     public List<Card> playerHand = new ArrayList<>();
     public List<Card> dealerHand = new ArrayList<>();
     public List<Card> playerSplitHand = new ArrayList<>();
@@ -17,34 +17,15 @@ public class BlackJack extends CardGame implements GamblingGame {
     public int dealerTotal;
     public int sizeOfPot;
 
-    public BlackJack(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
+    public BlackJack(Player currentPlayer) { this.currentPlayer = currentPlayer; }
 
     public void addToPot(int chipsAdded) {
         currentPlayer.wageMoney(chipsAdded);
         sizeOfPot += chipsAdded;
     }
 
-    public void playerWinPot() {
-        currentPlayer.winChips(sizeOfPot*2);
-        sizeOfPot = 0;
-        currentHand = playerHand;
-    }
-
-    public void tiedPot() {
-        currentPlayer.winChips(sizeOfPot);
-        sizeOfPot = 0;
-        currentHand = playerHand;
-    }
-
-    public void playerWinByBlackJack() {
-        currentPlayer.winChips(sizeOfPot*3);
-        sizeOfPot = 0;
-        currentHand = playerHand;
-    }
-
-    public void playerLosePot() {
+    public void passPot(int multiplier) {
+        currentPlayer.winChips(getPot()*multiplier);
         sizeOfPot = 0;
         currentHand = playerHand;
     }
@@ -71,11 +52,11 @@ public class BlackJack extends CardGame implements GamblingGame {
     }
 
     public void hold() {
-        currentHand = dealerHand;
-    }
-
-    public void splitHold() {
-        currentHand = playerSplitHand;
+        if(currentHand == playerHand && playerSplitHand.size() == 2) {
+            currentHand = playerSplitHand;
+        } else if (currentHand == playerSplitHand) {
+            currentHand = dealerHand;
+        } else currentHand = dealerHand;
     }
 
     @Override
@@ -92,22 +73,12 @@ public class BlackJack extends CardGame implements GamblingGame {
 
     @Override
     public String checkWinner() {
-        if(playerTotal == 21 && dealerTotal != 21) return "Player";
-        else if(playerTotal > dealerTotal && playerTotal <= 21) return "Player";
+        if(playerTotal > dealerTotal && playerTotal <= 21 || playerSplitTotal > dealerTotal && playerSplitTotal <= 21) return "Player";
         else if(dealerTotal > 21) return "Player";
-        else if(playerTotal > 21) return "Dealer";
-        else if(dealerTotal == 21 && playerTotal != 21) return "Dealer";
-        else if (dealerTotal > playerTotal) return "Dealer";
-        else return "Tie";
-    }
-
-    public String checkSplitWinner() {
-        if(playerSplitTotal == 21 && dealerTotal != 21) return "Player";
-        else if(playerSplitTotal > dealerTotal && playerSplitTotal <= 21) return "Player";
-        else if(dealerTotal > 21) return "Player";
-        else if(playerSplitTotal > 21) return "Dealer";
-        else if(dealerTotal == 21 && playerSplitTotal != 21) return "Dealer";
-        else if (dealerTotal > playerSplitTotal) return "Dealer";
+        else if(playerTotal > 21 && playerSplitTotal > 21) return "Dealer";
+        else if(playerTotal > 21 && dealerTotal > playerSplitTotal) return "Dealer";
+        else if(dealerTotal == 21 && playerTotal != 21 && playerSplitTotal != 21) return "Dealer";
+        else if ((dealerTotal > playerTotal || playerTotal > 21)  && (dealerTotal > playerSplitTotal || playerSplitTotal > 21)) return "Dealer";
         else return "Tie";
     }
 
@@ -124,42 +95,28 @@ public class BlackJack extends CardGame implements GamblingGame {
         playerSplitTotal += playerSplitHand.get(1).getValue();
     }
 
-    public boolean playerHaveBlackJack() {
-        if (playerTotal == 21 && (playerHand.get(0).getCardName().equals("A") || playerHand.get(1).getCardName().equals("A"))) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean playerSplitHandHaveBlackJack() {
-        if (playerSplitTotal == 21 && (playerSplitHand.get(0).getCardName().equals("A") || playerSplitHand.get(1).getCardName().equals("A"))) {
-            return true;
-        }
-        return false;
+    public String blackJackCheck() {
+        if (dealerTotal == 21 && dealerHand.size() == 2 && (playerTotal == 21 && playerHand.size() == 2 || playerSplitTotal == 21 &&  playerSplitHand.size() == 2)) {
+            return "Tie";
+        } else if (playerTotal == 21 && playerHand.size() == 2 || playerSplitTotal == 21 &&  playerSplitHand.size() == 2) {
+            return "Player";
+        } else if (dealerTotal == 21 && dealerHand.size() == 2)
+            return "Dealer";
+        else return "None";
     }
 
     public boolean dealerHaveBlackJack() {
         if (dealerTotal == 21 && (dealerHand.get(0).getCardName().equals("A") || dealerHand.get(1).getCardName().equals("A"))) {
             return true;
-        }
-        return false;
+        } return false;
     }
 
-    public boolean playerBust() {
-        return playerTotal > 21;
-    }
+    public boolean playerBust() { return playerTotal > 21; }
 
-    public boolean playerSplitHandBust() {
-        return playerSplitTotal > 21;
-    }
+    public boolean playerSplitHandBust() { return playerSplitTotal > 21; }
 
-    public boolean dealerBust() {
-        return dealerTotal > 21;
-    }
-
+    public boolean dealerBust() { return dealerTotal > 21; }
 
     @Override
-    public int getPot() {
-        return sizeOfPot;
-    }
+    public int getPot() { return sizeOfPot; }
 }
